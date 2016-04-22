@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="edu.cmu.footinguidemo">
+
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.UI_LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.UI_MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".ui.UI_PhotoActivity"
+            android:label="@string/title_activity_photo"
+            android:parentActivityName=".ui.UI_MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.UI_MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.UI_RecordingActivity"
+            android:label="@string/title_activity_recording"
+            android:parentActivityName=".ui.UI_MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.UI_MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.UI_MedalActivity"
+            android:label="@string/title_activity_medal"
+            android:parentActivityName=".ui.UI_MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.UI_MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.UI_NewJournalActivity"
+            android:label="@string/title_activity_new_journal"
+            android:parentActivityName=".ui.UI_MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.UI_MainActivity" />
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Statistics">
+        <menu>
+            <item android:title="Total distance travelled: 856,743 miles" />
+            <item android:title="Number of countries visited: 12" />
+            <item android:title="Number of cities visited: 35" />
+            <item android:title="Number of photos taken: 1024" />
+            <item android:title="Percentage of world explored: 5.8%" />
+        </menu>
+    </item>
+
+    <item android:title="Menu">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Settings" />
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Log Out" />
+        </menu>
+    </item>
+
+
+
+
+
+</menu>

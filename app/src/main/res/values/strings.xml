@@ -1,0 +1,48 @@
+<resources>
+    <!-- Titles -->
+    <string name="app_name">Footing</string>
+    <string name="title_activity_photo">Photo List</string>
+    <string name="title_activity_recording">Recording List</string>
+    <string name="title_activity_medal">Medal List</string>
+    <string name="title_activity_new_journal">New Journal</string>
+
+    <!-- Others -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">Footing</string>
+    <string name="forget_password">Forget password?</string>
+    <string name="new_user">New User</string>
+    <string name="title">Title</string>
+    <string name="content">Content</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="add_recording">Add Recording</string>
+    <string name="save">Save</string>
+    <string name="play">Play</string>
+    <string name="puff">Puff</string>
+    <string name="puff_email">puff@footing.com</string>
+    <string name="golden_gate_bridge">Golden Gate Bridge</string>
+    <string name="num_photos">15 photos</string>
+    <string name="num_voices">10 voices</string>
+    <string name="num_days">5 days</string>
+    <string name="photo">Photo</string>
+    <string name="recording">Recording</string>
+    <string name="delete">Delete</string>
+    <string name="share">Share</string>
+    <string name="golden_gate_bridge_medal">Golden Gate Bridge Medal</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_username">User Name</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Log In</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."</string>
+
+</resources>
