@@ -3,10 +3,12 @@ package edu.cmu.footinguidemo.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.controller.Validator;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -52,7 +55,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
+            "puff@footing.com:puff"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -85,7 +88,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.email_log_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,23 +165,30 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        // Check for a valid password
+        if (TextUtils.isEmpty(password)) {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            focusView = mPasswordView;
+            cancel = true;
+        } else if (!Validator.isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
-        // Check for a valid email address.
+        // Check for a valid email address
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!Validator.isEmailValid(email)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
         }
+
+        // TODO: Validate email and password from database
+
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -196,16 +206,6 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
             finish();
             startActivity(intent);
         }
-    }
-
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() >= 4;
     }
 
     /**
@@ -353,6 +353,29 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
             mAuthTask = null;
             showProgress(false);
         }
+    }
+
+    // Login Page event listener
+    public void retrievePassword(View view) {
+        alert("Please call 814-777-1234 to retrieve your password");
+    }
+
+    public void signUp(View view) {
+        Intent intent = new Intent(this, UI_SignUpActivity.class);
+        startActivity(intent);
+    }
+
+    private void alert(String message) {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle("Retrieve Password");
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
     }
 }
 

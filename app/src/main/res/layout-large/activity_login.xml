@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeActionLabel="@string/action_log_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
@@ -73,7 +73,7 @@
                 android:id="@+id/forget_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:text="@string/forget_password" />
@@ -87,7 +87,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@color/colorPrimary"
                 android:textColor="#ffffff"
-                android:text="@string/action_sign_in"
+                android:text="@string/action_log_in"
                 android:textStyle="bold" />
 
             <TextView

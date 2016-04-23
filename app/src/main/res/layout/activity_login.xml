@@ -34,6 +34,7 @@
                 android:id="@+id/logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:src="@drawable/logo" />
 
             <android.support.design.widget.TextInputLayout
@@ -61,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeActionLabel="@string/action_log_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
@@ -73,13 +74,14 @@
                 android:id="@+id/forget_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
+                android:layout_marginStart="6dp"
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
-                android:text="@string/forget_password" />
+                android:text="@string/forget_password"
+                android:onClick="retrievePassword" />
 
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/email_log_in_button"
                 style="?android:textAppearanceMedium"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
@@ -87,16 +89,20 @@
                 android:layout_marginBottom="16dp"
                 android:background="@color/colorPrimary"
                 android:textColor="#ffffff"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:textSize="26sp"
+                android:text="@string/action_log_in" />
 
-            <TextView
+            <Button
                 android:id="@+id/new_user"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_gravity="center_horizontal"
-                android:clickable="true"
-                android:text="@string/new_user" />
+                android:layout_marginBottom="16dp"
+                android:textAllCaps="false"
+                android:background="#ffffff"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/new_user"
+                android:onClick="signUp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

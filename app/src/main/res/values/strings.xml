@@ -5,6 +5,7 @@
     <string name="title_activity_recording">Recording List</string>
     <string name="title_activity_medal">Medal List</string>
     <string name="title_activity_new_journal">New Journal</string>
+    <string name="title_activity_sign_up">Sign Up</string>
 
     <!-- Others -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -33,16 +34,23 @@
     <string name="golden_gate_bridge_medal">Golden Gate Bridge Medal</string>
 
     <!-- Strings related to login -->
-    <string name="prompt_username">User Name</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Log In</string>
-    <string name="action_sign_in_short">Login</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="prompt_password_confirm">Confirm Password</string>
+    <string name="action_log_in">Log In</string>
+    <string name="action_log_in_short">Login</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="error_invalid_email">The email address is invalid</string>
+    <string name="error_email_not_exist">The email address does not exist</string>
+    <string name="error_email_registered">The email address has already been registered</string>
+    <string name="error_invalid_password">The password is too short</string>
+    <string name="error_incorrect_password">The password is incorrect</string>
+    <string name="error_invalid_password_confirm">Two passwords are different</string>
     <string name="error_field_required">This field is required</string>
+    <string name="message_sign_up_success">Sign up successful.\nPlease login using your email and password.</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."</string>
+
 
 </resources>
