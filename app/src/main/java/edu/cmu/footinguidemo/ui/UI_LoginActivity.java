@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.controller.Validator;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -44,6 +45,15 @@ import static android.Manifest.permission.READ_CONTACTS;
  * A login screen that offers login via email/password.
  */
 public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+
+    // Intent data ID
+    public final static String USERNAME = "username";
+    public final static String EMAIL = "email";
+    public final static String NUM_MILES = "num_miles";
+    public final static String NUM_COUNTRIES = "num_countries";
+    public final static String JOURNAL_ID_CSV = "journal_id";
+    public final static String MEDAL_ID_CSV = "medal_id";
+
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -55,7 +65,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "puff@footing.com:puff"
+            "example@example.com:example"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -162,6 +172,13 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
+        // User data to be sent to MainActivity
+        String username = "NULL";
+        int numMiles= 0;
+        int numCountries = 0;
+        String journalId = "";
+        String medalId = "";
+
         boolean cancel = false;
         View focusView = null;
 
@@ -187,7 +204,33 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
             cancel = true;
         }
 
-        // TODO: Validate email and password from database
+        if (!cancel) {
+            UserConnector db = new UserConnector(this);
+            Cursor row = db.query(email);
+            if (row.getCount() == 0) {
+                // Email address does not exist
+                mEmailView.setError(getString(R.string.error_email_not_exist));
+                focusView = mEmailView;
+                cancel = true;
+            } else {
+                // Email exists, password incorrect
+                row.moveToFirst();
+                String pw = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_PASSWORD));
+                if (!password.equals(pw)) {
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    focusView = mPasswordView;
+                    cancel = true;
+                } else {
+                    // Get data
+                    username = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_USERNAME));
+                    numMiles = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_MILES)));
+                    numCountries = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_COUNTRIES)));
+                    journalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_JOURNAL_ID));
+                    medalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_MEDAL_ID));
+                }
+            }
+            db.close();
+        }
 
 
         if (cancel) {
@@ -203,6 +246,12 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
 
             // Close Login Activity and start Main Activity
             Intent intent = new Intent(this, UI_MainActivity.class);
+            intent.putExtra(USERNAME, username);
+            intent.putExtra(EMAIL, email);
+            intent.putExtra(NUM_MILES, numMiles);
+            intent.putExtra(NUM_COUNTRIES, numCountries);
+            intent.putExtra(JOURNAL_ID_CSV, journalId);
+            intent.putExtra(MEDAL_ID_CSV, medalId);
             finish();
             startActivity(intent);
         }

@@ -27,7 +27,7 @@ public abstract class DBConnector {
         @Override
         public void onCreate(SQLiteDatabase db) {
             // query to create a new table named contacts
-            createTable(); // execute the query
+            createTable(db); // execute the query
         } // end method onCreate
 
         @Override
@@ -55,7 +55,7 @@ public abstract class DBConnector {
             mDatabase.close(); // close the database connection
     }
 
-    protected abstract void createTable();
+    protected abstract void createTable(SQLiteDatabase db);
     protected abstract void insert();
     protected abstract void find();
     protected abstract void update();

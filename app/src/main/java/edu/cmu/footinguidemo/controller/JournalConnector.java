@@ -1,6 +1,7 @@
 package edu.cmu.footinguidemo.controller;
 
 import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public class JournalConnector extends DBConnector {
 
     //create the table
     @Override
-    protected void createTable(){
+    protected void createTable(SQLiteDatabase db){
 
     }
     //insert a row to the table

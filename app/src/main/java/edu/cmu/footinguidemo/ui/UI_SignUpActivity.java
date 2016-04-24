@@ -1,6 +1,7 @@
 package edu.cmu.footinguidemo.ui;
 
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -105,18 +106,29 @@ public class UI_SignUpActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        // TODO: Validate email and password from database
+        // Make sure the email has not been registered in the database
+        if (!cancel) {
+            UserConnector db = new UserConnector(this);
+            Cursor row = db.query(email);
+            if (row.getCount() != 0) {
+                emailView.setError(getString(R.string.error_email_registered));
+                focusView = emailView;
+                cancel = true;
+            }
+            db.close();
+        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // TODO: Write data into database
-            // Insert calculation record into database
+            // Insert new registered user into database
             UserConnector db = new UserConnector(this);
-            //db.insert();
+            db.insert(username, email, password, 0, 0, "", "");
+            db.close();
 
+            // Alert the user and go back to login
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Success");
             alertDialog.setMessage(getString(R.string.message_sign_up_success));

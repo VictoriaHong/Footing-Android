@@ -2,6 +2,7 @@ package edu.cmu.footinguidemo.controller;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
@@ -44,15 +45,21 @@ public class UserConnector extends DBConnector {
 
     // Create the table
     @Override
-    protected void createTable() {
-        mDatabase.execSQL(SQL_CREATE_TABLE);
+    protected void createTable(SQLiteDatabase db) {
+        db.execSQL(SQL_CREATE_TABLE);
     }
 
-    @Override
-    protected void insert() {}
-
-    // Insert a row to the table
-    protected void insert(String username, String email, String password, int numMiles, int numCountries, String journalId, String medalId)  {
+    /**
+     * Insert a new registered user into databse
+     * @param username - Username
+     * @param email - Email
+     * @param password - Password
+     * @param numMiles - Total number of miles travelled
+     * @param numCountries - Total number of countries travelled
+     * @param journalId - CSV of journal ID written by the user
+     * @param medalId - CSV of medal ID earned by the user
+     */
+    public void insert(String username, String email, String password, int numMiles, int numCountries, String journalId, String medalId)  {
         mDatabase = mDatabaseOpenHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
@@ -69,27 +76,38 @@ public class UserConnector extends DBConnector {
         mDatabase.insert(Columns.TABLE_NAME, null, values);
     }
 
+    /**
+     * Get user data with a specific email address
+     * @param email - Email address of the querying user
+     * @return One row containing all user data, if user exists
+     */
+    public Cursor query(String email) {
+        mDatabase = mDatabaseOpenHelper.getReadableDatabase();
+        String selection = Columns.COLUMN_NAME_EMAIL + " = '" + email + "'";
+
+        // Define a projection that specifies which columns from the database to use
+        String[] projection =
+                {Columns.COLUMN_NAME_USERNAME, Columns.COLUMN_NAME_PASSWORD, Columns.COLUMN_NAME_NUM_MILES,
+                Columns.COLUMN_NAME_NUM_COUNTRIES, Columns.COLUMN_NAME_JOURNAL_ID, Columns.COLUMN_NAME_MEDAL_ID};
+        return mDatabase.query(Columns.TABLE_NAME, projection, selection, null, null, null, null);
+    }
+
+    @Override
+    protected void insert() {}
+
     // Find a row in the table
     @Override
-    protected void find() {
-
-    }
+    protected void find() {}
 
     // Update a row in the table
     @Override
-    protected void update() {
-
-    }
+    protected void update() {}
 
     // Delete a row in the table
     @Override
-    protected void delete() {
-
-    }
+    protected void delete() {}
 
     // Get the number of contents in the table
     @Override
-    protected void getCount(){
-
-    }
+    protected void getCount() {}
 }

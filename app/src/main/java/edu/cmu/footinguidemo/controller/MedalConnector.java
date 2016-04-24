@@ -1,5 +1,7 @@
 package edu.cmu.footinguidemo.controller;
 
+import android.database.sqlite.SQLiteDatabase;
+
 /**
  * Created by os on 4/12/16.
  */
@@ -9,7 +11,7 @@ public class MedalConnector extends DBConnector {
 
     //create the table
     @Override
-    protected void createTable(){
+    protected void createTable(SQLiteDatabase db){
 
     }
     //insert a row to the table
