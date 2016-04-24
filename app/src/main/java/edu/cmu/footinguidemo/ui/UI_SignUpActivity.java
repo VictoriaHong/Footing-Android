@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.controller.Validator;
 
 public class UI_SignUpActivity extends AppCompatActivity {
@@ -112,6 +113,9 @@ public class UI_SignUpActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             // TODO: Write data into database
+            // Insert calculation record into database
+            UserConnector db = new UserConnector(this);
+            //db.insert();
 
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Success");

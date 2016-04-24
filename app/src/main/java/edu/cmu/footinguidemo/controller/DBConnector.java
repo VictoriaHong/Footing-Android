@@ -9,12 +9,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by os on 4/12/16.
  */
-//Database Connector
+// Database Connector
 public abstract class DBConnector {
     public static final String DATABASE_NAME = "footing.db";
-    private SQLiteDatabase mDatabase; // database object
-    private DatabaseOpenHelper mDatabaseOpenHelper; // database helper
-    private class DatabaseOpenHelper extends SQLiteOpenHelper {
+    protected SQLiteDatabase mDatabase; // database object
+    protected DatabaseOpenHelper mDatabaseOpenHelper; // database helper
+
+    protected class DatabaseOpenHelper extends SQLiteOpenHelper {
         // public constructor
         private static final int VERSION = 1;
 
@@ -34,25 +35,26 @@ public abstract class DBConnector {
                               int newVersion) {
         } // end method onUpgrade
     }
+
     public DBConnector(){}
-    public DBConnector(Context context)
-    {
+
+    public DBConnector(Context context) {
         // create a new DatabaseOpenHelper
         mDatabaseOpenHelper =
                 new DatabaseOpenHelper(context);
     }
-    public void open() throws SQLException
-    {
+
+    public void open() throws SQLException {
         // create or open a database for reading/writing
         mDatabase = mDatabaseOpenHelper.getWritableDatabase();
     } // end method open
 
     // close the database connection
-    public void close()
-    {
+    public void close() {
         if (mDatabase != null)
             mDatabase.close(); // close the database connection
     }
+
     protected abstract void createTable();
     protected abstract void insert();
     protected abstract void find();
