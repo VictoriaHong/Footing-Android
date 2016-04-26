@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.controller.Validator;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -225,7 +226,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
                     numMiles = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_MILES)));
                     numCountries = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_COUNTRIES)));
                     journalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_JOURNAL_ID));
-                    medalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_MEDAL_ID));
+                    medalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_ACHIEVEMENT));
                 }
             }
             db.close();

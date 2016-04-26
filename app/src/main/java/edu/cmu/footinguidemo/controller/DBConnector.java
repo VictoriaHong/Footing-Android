@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 // Database Connector
 public abstract class DBConnector {
-    public static final String DATABASE_NAME = "footing.db";
+    public static final String DATABASE_NAME = "puff.db";
     protected SQLiteDatabase mDatabase; // database object
     protected DatabaseOpenHelper mDatabaseOpenHelper; // database helper
 

@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 /**
@@ -112,7 +111,7 @@ public class UserConnector extends DBConnector {
     @Override
     protected int getCount() {
         open(); // open the database
-        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        String countQuery = "SELECT * FROM " + TABLE_NAME;
         Cursor cursor = mDatabase.rawQuery(countQuery, null);
         int cnt = cursor.getCount();
         cursor.close();
