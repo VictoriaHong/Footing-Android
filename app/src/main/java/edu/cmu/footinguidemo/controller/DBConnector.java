@@ -1,6 +1,5 @@
 package edu.cmu.footinguidemo.controller;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -60,6 +59,6 @@ public abstract class DBConnector {
     protected abstract void find();
     protected abstract void update();
     protected abstract void delete();
-    protected abstract void getCount();
+    protected abstract int getCount();
 
 }

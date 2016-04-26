@@ -36,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cmu.footinguidemo.R;
-import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.controller.Validator;
 
 import static android.Manifest.permission.READ_CONTACTS;

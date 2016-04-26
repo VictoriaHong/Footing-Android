@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import edu.cmu.footinguidemo.R;
-import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.controller.Validator;
 
 public class UI_SignUpActivity extends AppCompatActivity {

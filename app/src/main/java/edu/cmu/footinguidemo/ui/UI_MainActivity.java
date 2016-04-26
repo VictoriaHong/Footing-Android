@@ -2,11 +2,11 @@ package edu.cmu.footinguidemo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,10 +18,12 @@ import android.widget.Toast;
 import edu.cmu.footinguidemo.R;
 
 public class UI_MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     ViewPager viewPager;
     TabLayout tabLayout;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,5 +105,4 @@ public class UI_MainActivity extends AppCompatActivity
         Snackbar.make(view, "Medal has been shared to Facebook", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
-
 }

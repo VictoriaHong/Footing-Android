@@ -51,6 +51,9 @@
     <string name="message_sign_up_success">Sign up successful.\nPlease login using your email and password.</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAhfXNpPJfEMEqQCF1q2BT4SprSQI7Y5Oc</string>
+    <string name="depText">Start</string>
+    <string name="desText">END</string>
 
 
 </resources>
