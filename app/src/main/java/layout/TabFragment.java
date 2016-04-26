@@ -274,14 +274,16 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
             requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 2);
         }
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
 
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
-        System.out.println("**************" + longitude);
-        System.out.println("**************" + latitude);
-        setUpMap();
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+//            location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            System.out.println("**************" + longitude);
+            System.out.println("**************" + latitude);
+            setUpMap();
 
     }
 
