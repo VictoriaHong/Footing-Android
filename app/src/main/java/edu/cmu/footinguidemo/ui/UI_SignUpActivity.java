@@ -125,7 +125,7 @@ public class UI_SignUpActivity extends AppCompatActivity {
         } else {
             // Insert new registered user into database
             UserConnector db = new UserConnector(this);
-            db.insert(username, email, password, 0, 0, "", "");
+            db.insert(username, email, password, 0, "", "", "");
             db.close();
 
             // Alert the user and go back to login

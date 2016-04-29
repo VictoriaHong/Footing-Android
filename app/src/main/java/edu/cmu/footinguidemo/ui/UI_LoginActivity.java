@@ -175,7 +175,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
         // User data to be sent to MainActivity
         String username = "NULL";
         int numMiles= 0;
-        int numCountries = 0;
+        String numCountries = "";
         String journalId = "";
         String medalId = "";
 
@@ -224,7 +224,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
                     // Get data
                     username = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_USERNAME));
                     numMiles = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_MILES)));
-                    numCountries = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_COUNTRIES)));
+                    numCountries = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_COUNTRIES));
                     journalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_JOURNAL_ID));
                     medalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_ACHIEVEMENT));
                 }

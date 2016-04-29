@@ -105,4 +105,10 @@ public class UI_MainActivity extends AppCompatActivity
         Snackbar.make(view, "Medal has been shared to Facebook", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
     }
+
+    public static class GlobalClass {
+        public static String usr_email = "u1@u.com";
+    }
 }
+
+

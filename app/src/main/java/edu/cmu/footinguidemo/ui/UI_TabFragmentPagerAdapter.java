@@ -15,7 +15,6 @@ public class UI_TabFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 3;
     private String tabTitles[] = new String[] { "Map", "Journal", "Medal"};
     private Context context;
-
     public UI_TabFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
         this.context = context;

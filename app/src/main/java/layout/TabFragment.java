@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,7 +27,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.ui.UI_MedalActivity;
 import edu.cmu.footinguidemo.ui.UI_NewJournalActivity;
 
@@ -43,17 +55,18 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
     private static Double latitude = 37.0, longitude = -120.0;
     private static Double latitudeP = 40.4443263, longitudeP = -79.9470875;
     private int mPage;
-    SupportMapFragment sMapFragment;
-    GoogleMap mMap;
-    Button startBtn;
-    Button endBtn;
-    Double startLag = Double.MAX_VALUE;
-    Double startLog = Double.MAX_VALUE;
-    Double endLag = Double.MAX_VALUE;
-    Double endLog = Double.MAX_VALUE;
-    Location location;
-    LocationManager locationManager;
-
+    private SupportMapFragment sMapFragment;
+    private GoogleMap mMap;
+    private Button startBtn;
+    private Button endBtn;
+    private Double startLag = Double.MAX_VALUE;
+    private Double startLog = Double.MAX_VALUE;
+    private Double endLag = Double.MAX_VALUE;
+    private Double endLog = Double.MAX_VALUE;
+    private Location location;
+    private LocationManager locationManager;
+    private Calculator calculator;
+    private UserConnector userConnector;
 
     public TabFragment() {
         // Required empty public constructor
@@ -140,6 +153,8 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
                          */
                         Toast.makeText(getContext(), ""+ distance[0], Toast.LENGTH_SHORT).show();
                         System.out.println("***************" + distance[0]);
+                        userConnector = new UserConnector(getContext());
+                        userConnector.updateMiles(distance[0]);
 
                         startLag = Double.MAX_VALUE;
                         startLog = Double.MAX_VALUE;
@@ -258,6 +273,8 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
         System.out.println("************add marker**************");
         // For zooming automatically to the Dropped PIN Location
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        calculator = new Calculator();
+        calculator.execute(latitude, longitude);
     }
 
     private void getLocation() {
@@ -296,4 +313,66 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
             boolean granted = grantResult == PackageManager.PERMISSION_GRANTED;
         }
     }
+
+    public class Calculator extends AsyncTask<Double, String, String> {
+        private BufferedReader br;
+        private URLConnection urlConnection;
+
+        public String getCountry(double latitude, double longitude){
+            String url = "http://maps.googleapis.com/maps/api/geocode/json?latlng="+latitude+","+longitude+"&sensor=false";
+            String country = "";
+            try {
+                URL Url = new URL(url);
+                urlConnection = Url.openConnection();
+                urlConnection.connect();
+
+                br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                StringBuffer sb = new StringBuffer();
+                String line = "";
+
+                while((line = br.readLine()) != null){
+                    sb.append(line);
+                }
+
+                JSONObject reader = new JSONObject(sb.toString());
+                country = reader.getJSONArray("results").getJSONObject(0).getJSONArray("address_components").getJSONObject(6).getString("long_name");
+                System.out.println("******************************" + country);
+                return country;
+
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return country;
+        }
+
+        @Override
+        public String doInBackground(Double... params) {
+            String country = getCountry(params[0], params[1]);
+            return country;
+        }
+
+        @Override
+        public void onPostExecute(String s) {
+            super.onPostExecute(s);
+            //write to database;
+            userConnector = new UserConnector(getContext());
+            String res = userConnector.hasCountry(s);
+            if (!res.equals("YES")) {
+                userConnector.updateCountry(s, res);
+            }
+        }
+    }
+
 }
+
+
