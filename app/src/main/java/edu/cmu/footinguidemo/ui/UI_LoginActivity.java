@@ -224,7 +224,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
                     // Get data
                     username = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_USERNAME));
                     numMiles = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_MILES)));
-                    numCountries = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_COUNTRIES));
+                    numCountries = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_COUNTRIES));
                     journalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_JOURNAL_ID));
                     medalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_ACHIEVEMENT));
                 }

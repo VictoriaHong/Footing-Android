@@ -15,7 +15,7 @@ import edu.cmu.footinguidemo.ui.UI_MainActivity;
  * @author Qiaoyi Chen (qiaoyic)
  */
 public class UserConnector extends DBConnector {
-    private static final String TABLE_NAME = "user_table";
+    protected static final String TABLE_NAME = "user_table";
     private static HashSet CountrySet;
     
     // Inner class that define the table contents
@@ -45,12 +45,6 @@ public class UserConnector extends DBConnector {
 
     public UserConnector(Context context) {
         super(context);
-    }
-
-    // Create the table
-    @Override
-    protected void createTable(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_TABLE);
     }
 
     /**

@@ -22,11 +22,7 @@ public class JournalListConnector extends DBConnector {
                     + Columns._ID + " INTEGER PRIMARY KEY, "
                     + Columns.COLUMN_NAME_LIST_OF_JOURNAL_ID + " TEXT NOT NULL)";
     private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
-    //create the table
-    @Override
-    protected void createTable(SQLiteDatabase db){
-        db.execSQL(SQL_CREATE_TABLE);
-    }
+
     public void insert(String listJournalId)  {
         mDatabase = mDatabaseOpenHelper.getWritableDatabase();
 

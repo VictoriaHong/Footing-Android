@@ -105,6 +105,7 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
                     mMap = googleMap;
                     if(mMap != null) {
                         System.out.println("************* Setup map at inside onMapReady**************");
+
                         getLocation();
                     }
                 }
@@ -112,7 +113,9 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
 
             if (!sMapFragment.isAdded()) {
                 fm.beginTransaction().add(R.id.map, sMapFragment).commit();
-            } else fm.beginTransaction().show(sMapFragment).commit();
+            } else {
+                fm.beginTransaction().show(sMapFragment).commit();
+            }
             // Inflate the layout for this fragment
             view = inflater.inflate(R.layout.tabpage_map, container, false);
 
@@ -292,15 +295,20 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 2);
         }
 
-            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 //            location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
-            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
+        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+
+        if (location != null) {
             longitude = location.getLongitude();
             latitude = location.getLatitude();
-            System.out.println("**************" + longitude);
-            System.out.println("**************" + latitude);
-            setUpMap();
+        }
+
+        System.out.println("**************" + longitude);
+        System.out.println("**************" + latitude);
+        setUpMap();
 
     }
 
