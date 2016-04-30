@@ -24,7 +24,7 @@ public class UserConnector extends DBConnector {
         public static final String COLUMN_NAME_EMAIL = "email";
         public static final String COLUMN_NAME_PASSWORD = "password";
         public static final String COLUMN_NAME_NUM_MILES = "num_miles";
-        public static final String COLUMN_NAME_NUM_COUNTRIES = "num_countries";
+        public static final String COLUMN_NAME_COUNTRIES = "countries";
         public static final String COLUMN_NAME_JOURNAL_ID = "journal_id";
         public static final String COLUMN_NAME_ACHIEVEMENT = "achievement";
     }
@@ -36,7 +36,7 @@ public class UserConnector extends DBConnector {
             + Columns.COLUMN_NAME_EMAIL + " TEXT UNIQUE NOT NULL, "
             + Columns.COLUMN_NAME_PASSWORD + " TEXT NOT NULL, "
             + Columns.COLUMN_NAME_NUM_MILES + " INTEGER, "
-            + Columns.COLUMN_NAME_NUM_COUNTRIES + " INTEGER, "
+            + Columns.COLUMN_NAME_COUNTRIES + " TEXT, "
             + Columns.COLUMN_NAME_JOURNAL_ID + " TEXT, "
             + Columns.COLUMN_NAME_ACHIEVEMENT + " TEXT)";
     private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -54,16 +54,16 @@ public class UserConnector extends DBConnector {
     }
 
     /**
-     * Insert a new registered user into databse
+     * Insert a new registered user into database
      * @param username - Username
      * @param email - Email
      * @param password - Password
      * @param numMiles - Total number of miles travelled
-     * @param numCountries - Total number of countries travelled
+     * @param countries - CSV of name of countries travelled
      * @param journalId - CSV of journal ID written by the user
      * @param medalId - CSV of medal ID earned by the user
      */
-    public void insert(String username, String email, String password, int numMiles, String numCountries, String journalId, String medalId)  {
+    public void insert(String username, String email, String password, int numMiles, String countries, String journalId, String medalId)  {
         mDatabase = mDatabaseOpenHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
@@ -72,7 +72,7 @@ public class UserConnector extends DBConnector {
         values.put(Columns.COLUMN_NAME_EMAIL, email);
         values.put(Columns.COLUMN_NAME_PASSWORD, password);
         values.put(Columns.COLUMN_NAME_NUM_MILES, numMiles);
-        values.put(Columns.COLUMN_NAME_NUM_COUNTRIES, numCountries);
+        values.put(Columns.COLUMN_NAME_COUNTRIES, countries);
         values.put(Columns.COLUMN_NAME_JOURNAL_ID, journalId);
         values.put(Columns.COLUMN_NAME_ACHIEVEMENT, medalId);
 
@@ -92,7 +92,7 @@ public class UserConnector extends DBConnector {
         // Define a projection that specifies which columns from the database to use
         String[] projection =
                 {Columns.COLUMN_NAME_USERNAME, Columns.COLUMN_NAME_PASSWORD, Columns.COLUMN_NAME_NUM_MILES,
-                Columns.COLUMN_NAME_NUM_COUNTRIES, Columns.COLUMN_NAME_JOURNAL_ID, Columns.COLUMN_NAME_ACHIEVEMENT};
+                Columns.COLUMN_NAME_COUNTRIES, Columns.COLUMN_NAME_JOURNAL_ID, Columns.COLUMN_NAME_ACHIEVEMENT};
         return mDatabase.query(TABLE_NAME, projection, selection, null, null, null, null);
     }
 
@@ -126,12 +126,12 @@ public class UserConnector extends DBConnector {
     public String hasCountry(String newCountry){
         CountrySet = new HashSet<String>();
         open();
-        String getNumOfCountriesQuery = "SELECT " + Columns.COLUMN_NAME_NUM_COUNTRIES + " FROM " + TABLE_NAME + " WHERE " + Columns.COLUMN_NAME_EMAIL + "=" + "'" + UI_MainActivity.GlobalClass.usr_email + "'";
+        String getNumOfCountriesQuery = "SELECT " + Columns.COLUMN_NAME_COUNTRIES + " FROM " + TABLE_NAME + " WHERE " + Columns.COLUMN_NAME_EMAIL + "=" + "'" + UI_MainActivity.GlobalClass.usr_email + "'";
         Cursor cursor = mDatabase.rawQuery(getNumOfCountriesQuery, null);
         String countryName = "";
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                countryName = cursor.getString(cursor.getColumnIndex(Columns.COLUMN_NAME_NUM_COUNTRIES));
+                countryName = cursor.getString(cursor.getColumnIndex(Columns.COLUMN_NAME_COUNTRIES));
                 String[] countries = countryName.split(",");
                 for (String c : countries) {
                     CountrySet.add(c);
@@ -148,7 +148,7 @@ public class UserConnector extends DBConnector {
         open();
         String res = names + "," + newCountry;
 //        String res = "China,United States,Korea,Thailand,Canada";
-        mDatabase.execSQL("UPDATE " + TABLE_NAME + " SET " + Columns.COLUMN_NAME_NUM_COUNTRIES + "='" + res + "' WHERE " + Columns.COLUMN_NAME_EMAIL + "=" + "'" + UI_MainActivity.GlobalClass.usr_email + "'");
+        mDatabase.execSQL("UPDATE " + TABLE_NAME + " SET " + Columns.COLUMN_NAME_COUNTRIES + "='" + res + "' WHERE " + Columns.COLUMN_NAME_EMAIL + "=" + "'" + UI_MainActivity.GlobalClass.usr_email + "'");
     }
 
     public void updateMiles(float distance){
