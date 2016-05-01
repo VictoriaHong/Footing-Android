@@ -40,6 +40,7 @@ import java.net.URLConnection;
 
 import edu.cmu.footinguidemo.R;
 import edu.cmu.footinguidemo.controller.UserConnector;
+import edu.cmu.footinguidemo.ui.JournalFragment;
 import edu.cmu.footinguidemo.ui.MedalFragment;
 import edu.cmu.footinguidemo.ui.UI_NewJournalActivity;
 
@@ -174,7 +175,11 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
         }
         // Journal tab
         else if (mPage == 2) {
-            view = inflater.inflate(R.layout.tabpage_journal, container, false);
+            view = inflater.inflate(R.layout.fragment_journal, container, false);
+            JournalFragment journalFragment = new JournalFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.journalFragment, journalFragment);
+            transaction.commit();
 
             // Add listener on floating button
             FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_add_journal);
