@@ -24,7 +24,6 @@
     <string name="puff">Puff</string>
     <string name="puff_email">puff@footing.com</string>
     <string name="golden_gate_bridge">Golden Gate Bridge</string>
-    <string name="num_photos">15 photos</string>
     <string name="num_voices">10 voices</string>
     <string name="num_days">5 days</string>
     <string name="photo">Photo</string>
@@ -32,6 +31,16 @@
     <string name="delete">Delete</string>
     <string name="share">Share</string>
     <string name="golden_gate_bridge_medal">Golden Gate Bridge Medal</string>
+
+    <!-- Main Drawer -->
+    <string name="statistics">Statistics</string>
+    <string name="total_distance">Total distance travelled:\u00A0</string>
+    <string name="num_countries">Number of countries visited:\u00A0</string>
+    <string name="num_journals">Number of journals written:\u00A0</string>
+    <string name="percentage_explored">Percentage of world explored:\u00A0</string>
+    <string name="menu">Menu</string>
+    <string name="settings">Settings</string>
+    <string name="log_out">Log Out</string>
 
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>

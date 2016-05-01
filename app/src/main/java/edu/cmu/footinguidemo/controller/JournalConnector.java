@@ -31,10 +31,7 @@ public class JournalConnector extends DBConnector {
 
     private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     //create the table
-    @Override
-    protected void createTable(SQLiteDatabase db){
-        db.execSQL(SQL_CREATE_TABLE);
-    }
+
     public void insert(String journalName, String photoPath, String voicePath)  {
         mDatabase = mDatabaseOpenHelper.getWritableDatabase();
 

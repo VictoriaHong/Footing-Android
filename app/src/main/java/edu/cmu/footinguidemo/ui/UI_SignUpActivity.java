@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.controller.Validator;
 
 public class UI_SignUpActivity extends AppCompatActivity {
@@ -124,7 +125,7 @@ public class UI_SignUpActivity extends AppCompatActivity {
         } else {
             // Insert new registered user into database
             UserConnector db = new UserConnector(this);
-            db.insert(username, email, password, 0, 0, "", "");
+            db.insert(username, email, password, 0, "", "", "");
             db.close();
 
             // Alert the user and go back to login

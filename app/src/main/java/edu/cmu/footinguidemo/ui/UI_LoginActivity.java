@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.controller.Validator;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -49,7 +50,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
     public final static String USERNAME = "username";
     public final static String EMAIL = "email";
     public final static String NUM_MILES = "num_miles";
-    public final static String NUM_COUNTRIES = "num_countries";
+    public final static String COUNTRIES_CSV = "countries";
     public final static String JOURNAL_ID_CSV = "journal_id";
     public final static String MEDAL_ID_CSV = "medal_id";
 
@@ -174,7 +175,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
         // User data to be sent to MainActivity
         String username = "NULL";
         int numMiles= 0;
-        int numCountries = 0;
+        String numCountries = "";
         String journalId = "";
         String medalId = "";
 
@@ -223,9 +224,9 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
                     // Get data
                     username = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_USERNAME));
                     numMiles = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_MILES)));
-                    numCountries = Integer.parseInt(row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_NUM_COUNTRIES)));
+                    numCountries = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_COUNTRIES));
                     journalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_JOURNAL_ID));
-                    medalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_MEDAL_ID));
+                    medalId = row.getString(row.getColumnIndex(UserConnector.Columns.COLUMN_NAME_ACHIEVEMENT));
                 }
             }
             db.close();
@@ -248,7 +249,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
             intent.putExtra(USERNAME, username);
             intent.putExtra(EMAIL, email);
             intent.putExtra(NUM_MILES, numMiles);
-            intent.putExtra(NUM_COUNTRIES, numCountries);
+            intent.putExtra(COUNTRIES_CSV, numCountries);
             intent.putExtra(JOURNAL_ID_CSV, journalId);
             intent.putExtra(MEDAL_ID_CSV, medalId);
             finish();
