@@ -17,5 +17,5 @@
 
 - update statistics at real time
 
-- show medal tab in fragment
+- show medal and journal tab in fragment
  
