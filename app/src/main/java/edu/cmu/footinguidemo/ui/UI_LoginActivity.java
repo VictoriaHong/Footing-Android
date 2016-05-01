@@ -50,7 +50,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
     public final static String USERNAME = "username";
     public final static String EMAIL = "email";
     public final static String NUM_MILES = "num_miles";
-    public final static String NUM_COUNTRIES = "num_countries";
+    public final static String COUNTRIES_CSV = "countries";
     public final static String JOURNAL_ID_CSV = "journal_id";
     public final static String MEDAL_ID_CSV = "medal_id";
 
@@ -249,7 +249,7 @@ public class UI_LoginActivity extends AppCompatActivity implements LoaderCallbac
             intent.putExtra(USERNAME, username);
             intent.putExtra(EMAIL, email);
             intent.putExtra(NUM_MILES, numMiles);
-            intent.putExtra(NUM_COUNTRIES, numCountries);
+            intent.putExtra(COUNTRIES_CSV, numCountries);
             intent.putExtra(JOURNAL_ID_CSV, journalId);
             intent.putExtra(MEDAL_ID_CSV, medalId);
             finish();

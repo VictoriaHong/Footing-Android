@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Statistics">
+    <item android:title="@string/statistics">
         <menu>
-            <item android:title="Total distance travelled: 856,743 miles" />
-            <item android:title="Number of countries visited: 12" />
-            <item android:title="Number of cities visited: 35" />
-            <item android:title="Number of photos taken: 1024" />
-            <item android:title="Percentage of world explored: 5.8%" />
+            <item
+                android:id="@+id/item_num_miles"
+                android:title="@string/total_distance" />
+            <item
+                android:id="@+id/item_num_countries"
+                android:title="@string/num_countries" />
+            <item
+                android:id="@+id/item_num_journals"
+                android:title="@string/num_journals" />
+            <item
+                android:id="@+id/item_percentage_explored"
+                android:title="@string/percentage_explored" />
         </menu>
     </item>
 
-    <item android:title="Menu">
+    <item android:title="@string/menu">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="Settings" />
+                android:title="@string/settings" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Log Out" />
+                android:title="@string/log_out" />
         </menu>
     </item>
-
-
-
-
 
 </menu>
