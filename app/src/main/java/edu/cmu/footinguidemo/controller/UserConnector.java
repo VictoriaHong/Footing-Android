@@ -90,6 +90,21 @@ public class UserConnector extends DBConnector {
         return mDatabase.query(TABLE_NAME, projection, selection, null, null, null, null);
     }
 
+    /**
+     * Update the username of a user
+     * @param email - Email address of the querying user
+     * @param newUsername - New username of the user
+     */
+    public void updateUsername(String email, String newUsername) {
+        mDatabase = mDatabaseOpenHelper.getReadableDatabase();
+        String selection = Columns.COLUMN_NAME_EMAIL + " = '" + email + "'";
+
+        ContentValues values = new ContentValues();
+        values.put(Columns.COLUMN_NAME_USERNAME, newUsername);
+
+        mDatabase.update(TABLE_NAME, values, selection, null);
+    }
+
     @Override
     protected void insert() {}
 

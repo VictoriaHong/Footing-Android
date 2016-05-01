@@ -26,12 +26,13 @@
 
         <TextView
             android:id="@+id/text_username"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:paddingStart="@dimen/nav_header_vertical_spacing"
             android:text="@string/puff"
-            android:textSize="28sp"
+            android:textSize="24sp"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
@@ -39,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/nav_header_vertical_spacing"
+            android:maxLines="1"
             android:text="@string/puff_email" />
 
 

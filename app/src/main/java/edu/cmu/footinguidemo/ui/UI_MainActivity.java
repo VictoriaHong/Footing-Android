@@ -1,5 +1,6 @@
 package edu.cmu.footinguidemo.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,15 +10,18 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.controller.UserConnector;
 
 public class UI_MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -39,7 +43,7 @@ public class UI_MainActivity extends AppCompatActivity
         public static int usr_numCountries = 0;
         public static int usr_numJournals = 0;
         public static int usr_numMedals = 0;
-        public static final int num_countries = 224;
+        public static final int num_countries = 224;  // 224 countries and regions in the world
     }
 
     @Override
@@ -97,7 +101,7 @@ public class UI_MainActivity extends AppCompatActivity
         menu.findItem(R.id.item_num_miles).setTitle(getString(R.string.total_distance) + GlobalClass.usr_numMiles + " miles");
         menu.findItem(R.id.item_num_countries).setTitle(getString(R.string.num_countries) + GlobalClass.usr_numCountries);
         menu.findItem(R.id.item_num_journals).setTitle(getString(R.string.num_journals) + GlobalClass.usr_numJournals);
-        menu.findItem(R.id.item_percentage_explored).setTitle(getString(R.string.percentage_explored) + String.format("%.1f%%", GlobalClass.usr_numCountries / 1.0 / GlobalClass.num_countries));
+        menu.findItem(R.id.item_percentage_explored).setTitle(getString(R.string.percentage_explored) + String.format("%.1f%%", 100.0 * GlobalClass.usr_numCountries / GlobalClass.num_countries));
     }
 
     @Override
@@ -130,12 +134,62 @@ public class UI_MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_settings) {
-            Toast.makeText(UI_MainActivity.this, "Settings are not available", Toast.LENGTH_LONG).show();
+            // Settings (change username)
+            // Display a dialog for entering username
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Change Username");
+            // Set up the input
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+            input.setText(GlobalClass.usr_username);
+            builder.setView(input, 60, 40, 60, 0);
+
+            // Set up the buttons
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String newUsername = input.getText().toString().trim();
+
+                    if (!newUsername.isEmpty()) {
+                        // Change the username in the header
+                        GlobalClass.usr_username = newUsername;
+                        ((TextView) findViewById(R.id.text_username)).setText(newUsername);
+
+                        // Write the username into database
+                        UserConnector db = new UserConnector(input.getContext());
+                        db.updateUsername(GlobalClass.usr_email, newUsername);
+                    }
+                    dialog.cancel();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            builder.show();
 
         } else if (id == R.id.nav_logout) {
-            Intent intent = new Intent(this, UI_LoginActivity.class);
-            finish();
-            startActivity(intent);
+            // Log out
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Log Out")
+                    .setMessage("Do you really want to log out?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        // Go back to LoginActivity
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            Intent intent = new Intent(UI_MainActivity.this, UI_LoginActivity.class);
+                            finish();
+                            startActivity(intent);
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
+
+        } else {
+            return false;
         }
 
         if (id != 0) {
