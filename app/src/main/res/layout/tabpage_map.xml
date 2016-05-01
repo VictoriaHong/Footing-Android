@@ -14,15 +14,6 @@
         class="com.google.android.gms.maps.MapView" >
     </FrameLayout>
 
-    <SearchView
-        android:id="@+id/search_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:focusable="false"
-        android:background="#66aaaaaa">
-    </SearchView>
-
     <Button
         android:id="@+id/depBtn"
         android:layout_width="80dp"

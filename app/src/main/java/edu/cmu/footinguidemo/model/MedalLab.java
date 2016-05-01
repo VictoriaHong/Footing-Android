@@ -1,13 +1,11 @@
 package edu.cmu.footinguidemo.model;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import edu.cmu.footinguidemo.controller.MedalConnector;
 
@@ -42,24 +40,29 @@ public class MedalLab {
     public List<Medal> getMedals(){
         List<Medal> medals = new ArrayList<>();
         MedalConnector db = new MedalConnector(mContext);
-        Cursor cursor = db.queryAll();
-
-
-        try{
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast()){
-
-                String medalName = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME));
-                //String photoPath = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
-                int isSolved = cursor.getInt(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_MEDAL_SOLVED));
-
-                Medal medal = new Medal(medalName, isSolved!=0);
-                medals.add(medal);
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
-        }
+//        Cursor cursor = db.queryAll();
+//
+//
+//        try{
+//            cursor.moveToFirst();
+//            while(!cursor.isAfterLast()){
+//
+//                String medalName = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME));
+//                //String photoPath = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
+//                int isSolved = cursor.getInt(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_MEDAL_SOLVED));
+//
+//                Medal medal = new Medal(medalName, isSolved!=0);
+//                medals.add(medal);
+//                cursor.moveToNext();
+//            }
+//        } finally {
+//            cursor.close();
+//        }
+        medals.add(new Medal("a", true));
+        medals.add(new Medal("b", true));
+        medals.add(new Medal("c", true));
+        medals.add(new Medal("d", true));
+        medals.add(new Medal("e", true));
         return medals;
     }
     public Medal getMedal(String medalname){
@@ -82,7 +85,6 @@ public class MedalLab {
     public void updateMedal(Medal medal){
         MedalConnector db = new MedalConnector(mContext);
         db.update(medal);
-
     }
 
 
