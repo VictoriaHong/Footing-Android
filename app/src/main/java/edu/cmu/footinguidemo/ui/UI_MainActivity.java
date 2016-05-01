@@ -57,10 +57,9 @@ public class UI_MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
-
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -96,12 +95,36 @@ public class UI_MainActivity extends AppCompatActivity
         GlobalClass.usr_numJournals = GlobalClass.usr_journalId_csv.isEmpty() ? 0 : GlobalClass.usr_journalId_csv.split(",").length;
         GlobalClass.usr_numMedals = GlobalClass.usr_medalId_csv.isEmpty() ? 0 : GlobalClass.usr_medalId_csv.split(",").length;
 
-        // Display statistics in the menu
-        Menu menu = navigationView.getMenu();
-        menu.findItem(R.id.item_num_miles).setTitle(getString(R.string.total_distance) + GlobalClass.usr_numMiles + " miles");
-        menu.findItem(R.id.item_num_countries).setTitle(getString(R.string.num_countries) + GlobalClass.usr_numCountries);
-        menu.findItem(R.id.item_num_journals).setTitle(getString(R.string.num_journals) + GlobalClass.usr_numJournals);
-        menu.findItem(R.id.item_percentage_explored).setTitle(getString(R.string.percentage_explored) + String.format("%.1f%%", 100.0 * GlobalClass.usr_numCountries / GlobalClass.num_countries));
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            private boolean closed = true;
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                this.closed = false;
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                this.closed = true;
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                if (this.closed && newState == DrawerLayout.STATE_SETTLING) {
+                    // Update statistics in the menu
+                    Menu menu = navigationView.getMenu();
+                    menu.findItem(R.id.item_num_miles).setTitle(getString(R.string.total_distance) + GlobalClass.usr_numMiles + " miles");
+                    menu.findItem(R.id.item_num_countries).setTitle(getString(R.string.num_countries) + GlobalClass.usr_numCountries);
+                    menu.findItem(R.id.item_num_journals).setTitle(getString(R.string.num_journals) + GlobalClass.usr_numJournals);
+                    menu.findItem(R.id.item_percentage_explored).setTitle(getString(R.string.percentage_explored) + String.format("%.1f%%", 100.0 * GlobalClass.usr_numCountries / GlobalClass.num_countries));
+                }
+            }
+        });
     }
 
     @Override
