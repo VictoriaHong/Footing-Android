@@ -117,11 +117,12 @@ public class UI_MainActivity extends AppCompatActivity
             public void onDrawerStateChanged(int newState) {
                 if (this.closed && newState == DrawerLayout.STATE_SETTLING) {
                     // Update statistics in the menu
+                    System.out.println("***********country csv:" + GlobalClass.usr_countries_csv);
                     Menu menu = navigationView.getMenu();
                     menu.findItem(R.id.item_num_miles).setTitle(getString(R.string.total_distance) + GlobalClass.usr_numMiles + " miles");
                     menu.findItem(R.id.item_num_countries).setTitle(getString(R.string.num_countries) + GlobalClass.usr_numCountries);
                     menu.findItem(R.id.item_num_journals).setTitle(getString(R.string.num_journals) + GlobalClass.usr_numJournals);
-                    menu.findItem(R.id.item_percentage_explored).setTitle(getString(R.string.percentage_explored) + String.format("%.1f%%", 100.0 * GlobalClass.usr_numCountries / GlobalClass.num_countries));
+                    menu.findItem(R.id.item_percentage_explored).setTitle(getString(R.string.percentage_explored) + String.format("%.1f%%", 100.0 * GlobalClass.usr_countries_csv.split(",").length / GlobalClass.num_countries));
                 }
             }
         });

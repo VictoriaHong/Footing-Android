@@ -3,7 +3,6 @@ package edu.cmu.footinguidemo.controller;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
 
 import java.util.HashSet;
@@ -155,9 +154,11 @@ public class UserConnector extends DBConnector {
 
     public void updateCountry(String newCountry, String names){
         open();
-        String res = names + "," + newCountry;
-//        String res = "China,United States,Korea,Thailand,Canada";
+        String res = names.equals("") ? newCountry : (names + "," + newCountry);
+//        String res = "China,United States,Korea,Thailand,Canada,Taiwan,Japan,UK";
         mDatabase.execSQL("UPDATE " + TABLE_NAME + " SET " + Columns.COLUMN_NAME_COUNTRIES + "='" + res + "' WHERE " + Columns.COLUMN_NAME_EMAIL + "=" + "'" + UI_MainActivity.GlobalClass.usr_email + "'");
+        UI_MainActivity.GlobalClass.usr_countries_csv = res;
+        UI_MainActivity.GlobalClass.usr_numCountries = UI_MainActivity.GlobalClass.usr_countries_csv.split(",").length;
     }
 
     public void updateMiles(float distance){
@@ -165,6 +166,7 @@ public class UserConnector extends DBConnector {
         int newDistance = (int) (distance + getCurrentMiles());
         mDatabase.execSQL("UPDATE " + TABLE_NAME + " SET " + Columns.COLUMN_NAME_NUM_MILES + "='" + newDistance + "' WHERE " + Columns.COLUMN_NAME_EMAIL + "=" + "'" + UI_MainActivity.GlobalClass.usr_email + "'");
         System.out.println("*************** new miles: " + newDistance);
+        UI_MainActivity.GlobalClass.usr_numMiles = newDistance;
     }
 
     public float getCurrentMiles(){
