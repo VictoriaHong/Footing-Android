@@ -124,6 +124,7 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    setUpMap();
                     Snackbar.make(view, "This is your current location", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
