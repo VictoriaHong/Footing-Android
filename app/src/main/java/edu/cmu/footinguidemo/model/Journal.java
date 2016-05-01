@@ -7,6 +7,10 @@ public class Journal {
 	private String voicePath;
 	private int numOfVoices;
 	private int numOfPhotos;
+
+	public Journal(String journalName){
+		this.journalName = journalName;
+	}
 	public String getJournalId() {
 		return journalId;
 	}

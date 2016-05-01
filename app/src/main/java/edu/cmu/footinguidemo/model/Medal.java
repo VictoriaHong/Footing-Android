@@ -13,6 +13,7 @@ public class Medal {
 	public Medal(UUID id){
 		this.mId = id;
 	}
+
 	public Medal(String medalName, boolean mSolved){
 
 		this.medalName = medalName;

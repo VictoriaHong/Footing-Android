@@ -14,6 +14,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,8 @@ import java.net.URLConnection;
 
 import edu.cmu.footinguidemo.R;
 import edu.cmu.footinguidemo.controller.UserConnector;
-import edu.cmu.footinguidemo.ui.UI_MedalActivity;
+import edu.cmu.footinguidemo.ui.JournalFragment;
+import edu.cmu.footinguidemo.ui.MedalFragment;
 import edu.cmu.footinguidemo.ui.UI_NewJournalActivity;
 
 /**
@@ -173,7 +175,11 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
         }
         // Journal tab
         else if (mPage == 2) {
-            view = inflater.inflate(R.layout.tabpage_journal, container, false);
+            view = inflater.inflate(R.layout.fragment_journal, container, false);
+            JournalFragment journalFragment = new JournalFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.journalFragment, journalFragment);
+            transaction.commit();
 
             // Add listener on floating button
             FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_add_journal);
@@ -187,45 +193,15 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
         }
         // Medal tab
         else if (mPage == 3) {
-            view = inflater.inflate(R.layout.tabpage_medal, container, false);
-
-            // Add listener on floating button
-            FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab_add_medal);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), UI_MedalActivity.class);
-                    startActivity(intent);
-                }
-            });
+            view = inflater.inflate(R.layout.fragment_medal, container, false);
+            MedalFragment medalFragment = new MedalFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction.add(R.id.medalFragment, medalFragment);
+            transaction.commit();
         }
 
         return view;
     }
-
-//    @Override
-//    public void onConnected(Bundle bundle) {
-//
-//    }
-//
-//    @Override
-//    public void onConnectionSuspended(int i) {
-//
-//    }
-//
-//    @Override
-//    public void onLocationChanged(Location location) {
-//        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-//        latitude = loc.latitude;
-//        longitude = loc.longitude;
-//        setUpMap();
-//    }
-//
-//    @Override
-//    public void onConnectionFailed(ConnectionResult connectionResult) {
-//
-//    }
-
 
     /**
      * This interface must be implemented by activities that contain this

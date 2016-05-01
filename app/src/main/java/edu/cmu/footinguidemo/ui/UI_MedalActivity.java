@@ -1,13 +1,13 @@
 package edu.cmu.footinguidemo.ui;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import edu.cmu.footinguidemo.R;
 
@@ -29,6 +29,12 @@ public class UI_MedalActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, medals);
         listView.setAdapter(adapter);
+    }
+
+    public void onListItemClick(ListView l, View view, int position, long id){
+        ViewGroup viewGroup = (ViewGroup)view;
+        TextView txt = (TextView) viewGroup.findViewById(R.id.list_item_medal_title_text_view);
+        Toast.makeText(this, txt.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 
 }

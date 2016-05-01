@@ -1,11 +1,9 @@
 package edu.cmu.footinguidemo.controller;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.provider.BaseColumns;
-
-import java.util.Objects;
 
 import edu.cmu.footinguidemo.model.Journal;
 
@@ -21,6 +19,11 @@ public class JournalConnector extends DBConnector {
         public static final String COLUMN_NAME_PHOTO_PATH = "photo_path";
         public static final String COLUMN_NAME_VOICE_PATH = "voice_path";
     }
+
+    public JournalConnector(Context context) {
+        super(context);
+    }
+
     private static final String SQL_CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                     + Columns._ID + " INTEGER PRIMARY KEY, "
