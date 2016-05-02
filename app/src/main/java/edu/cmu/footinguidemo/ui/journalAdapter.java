@@ -17,12 +17,14 @@ import edu.cmu.footinguidemo.model.Journal;
  * Created by XinHong on 5/1/16.
  */
 public class JournalAdapter extends ArrayAdapter<Journal> {
+    private List<Journal> mJournals;
     public JournalAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
 
-    public JournalAdapter(Context context, int resource, List<Journal> medals) {
-        super(context, resource, medals);
+    public JournalAdapter(Context context, int resource, List<Journal> journals) {
+        super(context, resource, journals);
+        mJournals = journals;
     }
 
     @Override
@@ -47,7 +49,7 @@ public class JournalAdapter extends ArrayAdapter<Journal> {
             }
 
             if (imageView != null) {
-                imageView.setImageResource(R.drawable.medal);
+                imageView.setImageResource(p.getPhotoPath());
             }
         }
 

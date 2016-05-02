@@ -9,7 +9,6 @@
         android:id="@+id/journal_cover"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:background="@android:color/darker_gray"
         android:layout_margin="10dp"
         />
     <TextView
@@ -20,6 +19,6 @@
         tools:text="Journal Title"
         android:layout_marginLeft="10dp"
         android:layout_margin="10dp"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:gravity="fill_vertical" />
 </LinearLayout>

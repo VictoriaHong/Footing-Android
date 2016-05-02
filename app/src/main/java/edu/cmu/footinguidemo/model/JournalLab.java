@@ -1,11 +1,13 @@
 package edu.cmu.footinguidemo.model;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cmu.footinguidemo.R;
 import edu.cmu.footinguidemo.controller.JournalConnector;
 
 /**
@@ -18,7 +20,8 @@ public class JournalLab {
     private Context mContext;
     private JournalConnector mJournalConnector;
     private SQLiteDatabase mDatabase;
-
+    private int[] mPhotoPath = {R.drawable.golden_gate_bridge, R.drawable.mountain_view};
+    private int[] mVoicePath = {R.raw.mayday_voice1, R.raw.mayday_voice2};
     public static JournalLab get(Context context){
         if(sJournalLab == null){
             sJournalLab = new JournalLab(context);
@@ -29,9 +32,9 @@ public class JournalLab {
         mContext = context.getApplicationContext();
         JournalConnector db = new JournalConnector(mContext);
 
-        String[] mJournalName = {"10 countries explored", "20 countries explored", "30 countries explored","10000 miles traveled", "20000 miles traveled"};
-        for(int i = 0; i < 5; i++){
-            db.insert(mJournalName[i], "", "");
+        String[] mJournalName = { "San Francisco", "Mountain View"};
+        for(int i = 0; i < mJournalName.length; i++){
+            db.insert(mJournalName[i], mPhotoPath[i], mVoicePath[i]);
         }
         db.close();
 
@@ -40,50 +43,46 @@ public class JournalLab {
     public List<Journal> getJournals(){
         List<Journal> journals = new ArrayList<>();
         JournalConnector db = new JournalConnector(mContext);
-//        Cursor cursor = db.queryAll();
-//
-//
-//        try{
-//            cursor.moveToFirst();
-//            while(!cursor.isAfterLast()){
-//
-//                String medalName = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME));
-//                //String photoPath = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
-//                int isSolved = cursor.getInt(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_MEDAL_SOLVED));
-//
-//                Medal medal = new Medal(medalName, isSolved!=0);
-//                medals.add(medal);
-//                cursor.moveToNext();
-//            }
-//        } finally {
-//            cursor.close();
-//        }
-        journals.add(new Journal("1"));
-        journals.add(new Journal("2"));
-        journals.add(new Journal("3"));
-        journals.add(new Journal("4"));
-        journals.add(new Journal("5"));
+        Cursor cursor = db.queryAll();
+
+
+        try{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+
+                String journalName = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME));
+                int photopath = cursor.getInt(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
+                int voicepath = cursor.getInt(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_VOICE_PATH));
+                Journal journal = new Journal(journalName, photopath, voicepath);
+                journals.add(journal);
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
         return journals;
     }
-//    public Medal getMedal(String medalname){
-//        MedalConnector db = new MedalConnector(mContext);
-//        Cursor cursor = db.query(medalname);
-//        Medal medal = null;
-//        if(cursor.getCount() == 0){
-//            System.out.println("no medal got");
-//        }else{
-//            cursor.moveToFirst();
-//            String medalName = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME));
-//            //String photoPath = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
-//            int isSolved = cursor.getInt(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_MEDAL_SOLVED));
-//            medal = new Medal(medalName, isSolved!=0);
-//            cursor.close();
-//        }
-//        return medal;
-//
-//    }
-//    public void updateMedal(Medal medal){
-//        MedalConnector db = new MedalConnector(mContext);
-//        db.update(medal);
-//    }
+   public Journal getJournal(String journalname){
+
+    JournalConnector db = new JournalConnector(mContext);
+    Cursor cursor = db.query(journalname);
+    Journal journal = null;
+    if(cursor.getCount() == 0){
+        System.out.println("no journal got");
+    }else{
+        cursor.moveToFirst();
+        String journalName = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME));
+        int photoPath = cursor.getInt(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
+        int voicePath = cursor.getInt(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_VOICE_PATH));
+        journal = new Journal(journalName, photoPath, voicePath);
+        cursor.close();
+    }
+    return journal;
+
+}
+    public void updateJournal(Journal journal){
+        JournalConnector db = new JournalConnector(mContext);
+        db.update(journal);
+
+    }
 }

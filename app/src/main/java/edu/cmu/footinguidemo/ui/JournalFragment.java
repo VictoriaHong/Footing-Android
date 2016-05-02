@@ -1,5 +1,6 @@
 package edu.cmu.footinguidemo.ui;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -17,7 +18,7 @@ import edu.cmu.footinguidemo.model.JournalLab;
  * Created by XinHong on 5/1/16.
  */
 public class JournalFragment extends Fragment{
-
+    private MediaPlayer mMediaPlayer;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -34,8 +35,14 @@ public class JournalFragment extends Fragment{
             journalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Journal o = (Journal)journalList.getItemAtPosition(position);
-                    Toast.makeText(getContext(), o.getJournalName(), Toast.LENGTH_SHORT).show();
+                    Journal journal = (Journal)journalList.getItemAtPosition(position);
+                    Toast.makeText(getContext(), "playing voice", Toast.LENGTH_SHORT).show();
+                    if (mMediaPlayer != null) {
+                        mMediaPlayer.stop();
+                    }
+                    mMediaPlayer = MediaPlayer.create(getActivity(), journal.getVoicePath());
+                    mMediaPlayer.start();
+
                 }
             });
         }

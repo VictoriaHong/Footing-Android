@@ -11,8 +11,8 @@ import edu.cmu.footinguidemo.model.Journal;
  * Created by os on 4/12/16.
  */
 public class JournalConnector extends DBConnector {
-    private static final String TABLE_NAME = "journal_table";
-    private static final String[] QUERY_COLUMNS = {"journal_id", "journal_name", "photo_path", "voice_path"};
+    public static final String TABLE_NAME = "journal_table";
+
     // Inner class that define the table contents
     public static abstract class Columns implements BaseColumns {
         public static final String COLUMN_NAME_JOURNAL_NAME = "journal_name";
@@ -24,18 +24,13 @@ public class JournalConnector extends DBConnector {
         super(context);
     }
 
-    private static final String SQL_CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
-                    + Columns._ID + " INTEGER PRIMARY KEY, "
-                    + Columns.COLUMN_NAME_JOURNAL_NAME + " TEXT NOT NULL, "
-                    + Columns.COLUMN_NAME_PHOTO_PATH + " TEXT NOT NULL, "
-                    + Columns.COLUMN_NAME_VOICE_PATH + " TEXT NOT NULL)";
+
 
 
     private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     //create the table
 
-    public void insert(String journalName, String photoPath, String voicePath)  {
+    public void insert(String journalName, int photoPath, int voicePath)  {
         mDatabase = mDatabaseOpenHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
@@ -56,6 +51,24 @@ public class JournalConnector extends DBConnector {
         String[] projection =
                 {Columns.COLUMN_NAME_JOURNAL_NAME, Columns.COLUMN_NAME_PHOTO_PATH, Columns.COLUMN_NAME_VOICE_PATH};
         return mDatabase.query(TABLE_NAME, projection, selection, null, null, null, null);
+    }
+    public Cursor queryAll(){
+        mDatabase = mDatabaseOpenHelper.getReadableDatabase();
+        return mDatabase.query(TABLE_NAME, null, null, null, null, null, null, null);
+    }
+    public void update(Journal journal){
+        String journalName = journal.getJournalName();
+        ContentValues values = getContentValues(journal);
+        mDatabase.update(TABLE_NAME, values, Columns.COLUMN_NAME_JOURNAL_NAME + " = ?", new String[]{journalName});
+    }
+    private static ContentValues getContentValues(Journal journal){
+        ContentValues values = new ContentValues();
+
+        values.put(Columns.COLUMN_NAME_JOURNAL_NAME, journal.getJournalName());
+        values.put(Columns.COLUMN_NAME_PHOTO_PATH, journal.getPhotoPath());
+        values.put(Columns.COLUMN_NAME_VOICE_PATH, journal.getVoicePath());
+
+        return values;
     }
     //insert a row to the table
     @Override
@@ -88,57 +101,6 @@ public class JournalConnector extends DBConnector {
         close();
         return cnt;
     }
-    public static ContentValues getContentValues(Journal journal){
-        ContentValues newJournal = new ContentValues();
-        newJournal.put(QUERY_COLUMNS[0], journal.getJournalId());
-        newJournal.put(QUERY_COLUMNS[1], journal.getJournalName());
-        newJournal.put(QUERY_COLUMNS[2], journal.getPhotoPath());
-        newJournal.put(QUERY_COLUMNS[3], journal.getVoicePath());
-        return newJournal;
-    }
-/*
-    // inserts a new journal in the database
-    public void insertJournal(Journal journal){
-        ContentValues newJournal = getContentValues(journal);
-        open();
-        mDatabase.insert(TABLE_NAME, null, newJournal);
-        close();
-    }
 
-    // update a new student in the database
-    public void updateJournal(Journal journal, long id)
-    {
-        ContentValues newJournal = getContentValues(journal);
-        open(); // open the database
-        mDatabase.update(TABLE_NAME, newJournal, "journal_id=" + id, null);
-        close(); // close the database
-    } // end method
 
-    // return a Cursor with all journals information in the database
-    public Cursor getAllJournals()
-    {
-        return mDatabase.query(TABLE_NAME, null,
-                null, null, null, null, null);
-    } // end method
-
-    // get a Cursor containing all information about the Journal specified
-    // by the given id
-    public Cursor getOneJournal(long id)
-    {
-        //query (String table, String[] columns, String selection, String[] selectionArgs,
-        // String groupBy, String having, String orderBy, String limit)
-        return mDatabase.query(
-                TABLE_NAME, null, "journal_id=" + id, null, null, null, null);
-    } // end method
-
-    // delete the Student specified by the given String name
-    public void deleteJournal(long id)
-    {
-        open(); // open the database
-        mDatabase.delete(TABLE_NAME, "journal_id=" + id, null);
-        close(); // close the database
-    } // end method
-
-    // end method
-    */
 }

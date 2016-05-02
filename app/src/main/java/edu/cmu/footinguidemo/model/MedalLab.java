@@ -29,10 +29,16 @@ public class MedalLab {
         mContext = context.getApplicationContext();
         MedalConnector db = new MedalConnector(mContext);
 
-        String[] mMedalName = {"10 countries explored", "20 countries explored", "30 countries explored","10000 miles traveled", "20000 miles traveled"};
-        for(int i = 0; i < 5; i++){
-            db.insert(mMedalName[i], false);
+        String[] mMedalName = { "1 countries explored", "5 countries explored", "10 countries explored", "20 countries explored", "30 countries explored","10000 miles traveled", "20000 miles traveled", "United State", "China", "Japan", "Taiwan"};
+        for(int i = 0; i < mMedalName.length; i++){
+            if(mMedalName[i].equals("1 countries explored") || mMedalName[i].equals("United State")) {
+                db.insert(mMedalName[i], true);
+            }
+            else{
+                db.insert(mMedalName[i], false);
+            }
         }
+
         db.close();
 
     }
@@ -40,29 +46,25 @@ public class MedalLab {
     public List<Medal> getMedals(){
         List<Medal> medals = new ArrayList<>();
         MedalConnector db = new MedalConnector(mContext);
-//        Cursor cursor = db.queryAll();
-//
-//
-//        try{
-//            cursor.moveToFirst();
-//            while(!cursor.isAfterLast()){
-//
-//                String medalName = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME));
-//                //String photoPath = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
-//                int isSolved = cursor.getInt(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_MEDAL_SOLVED));
-//
-//                Medal medal = new Medal(medalName, isSolved!=0);
-//                medals.add(medal);
-//                cursor.moveToNext();
-//            }
-//        } finally {
-//            cursor.close();
-//        }
-        medals.add(new Medal("a", true));
-        medals.add(new Medal("b", true));
-        medals.add(new Medal("c", true));
-        medals.add(new Medal("d", true));
-        medals.add(new Medal("e", true));
+        Cursor cursor = db.queryAll();
+
+
+        try{
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+
+                String medalName = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME));
+                //String photoPath = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
+                int isSolved = cursor.getInt(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_MEDAL_SOLVED));
+
+                Medal medal = new Medal(medalName, isSolved!=0);
+                medals.add(medal);
+                cursor.moveToNext();
+            }
+        } finally {
+            cursor.close();
+        }
+
         return medals;
     }
     public Medal getMedal(String medalname){
@@ -74,7 +76,6 @@ public class MedalLab {
         }else{
             cursor.moveToFirst();
             String medalName = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME));
-            //String photoPath = cursor.getString(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
             int isSolved = cursor.getInt(cursor.getColumnIndex(MedalConnector.Columns.COLUMN_MEDAL_SOLVED));
             medal = new Medal(medalName, isSolved!=0);
             cursor.close();

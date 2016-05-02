@@ -17,7 +17,6 @@ public class Medal {
 	public Medal(String medalName, boolean mSolved){
 
 		this.medalName = medalName;
-		//this.path = path;
 		this.mSolved = mSolved;
 
 	}
@@ -34,12 +33,7 @@ public class Medal {
 	public void setMedalName(String medalName) {
 		this.medalName = medalName;
 	}
-//	public String getPath() {
-//		return path;
-//	}
-//	public void setPath(String path) {
-//		this.path = path;
-//	}
+
 
 	public boolean isSolved() {
 		return mSolved;

@@ -1,6 +1,7 @@
 package edu.cmu.footinguidemo.ui;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import edu.cmu.footinguidemo.model.Medal;
  * Created by XinHong on 5/1/16.
  */
 public class MedalAdapter extends ArrayAdapter<Medal>{
-
+        private List<Medal> mMedals;
 
         public MedalAdapter(Context context, int textViewResourceId) {
             super(context, textViewResourceId);
@@ -25,6 +26,7 @@ public class MedalAdapter extends ArrayAdapter<Medal>{
 
         public MedalAdapter(Context context, int resource, List<Medal> medals) {
             super(context, resource, medals);
+            mMedals = medals;
         }
 
         @Override
@@ -49,11 +51,19 @@ public class MedalAdapter extends ArrayAdapter<Medal>{
                 }
 
                 if (imageView != null) {
-                    imageView.setImageResource(R.drawable.medal);
+                    if(p.isSolved()) {
+                        imageView.setImageResource(R.drawable.medal);
+                    }else{
+                        imageView.setImageResource(R.drawable.notget);
+                    }
                 }
             }
 
             return v;
         }
+        public void setMedals(List<Medal> medals){
+        mMedals = medals;
+    }
+
 }
 

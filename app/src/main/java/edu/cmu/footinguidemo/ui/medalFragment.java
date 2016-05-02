@@ -34,8 +34,48 @@ public class MedalFragment extends Fragment {
         medalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Medal o = (Medal)medalList.getItemAtPosition(position);
-                Toast.makeText(getContext(),o.getMedalName(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"Checking", Toast.LENGTH_SHORT ).show();
+                Medal mMedal = (Medal)medalList.getItemAtPosition(position);
+                if(mMedal.getMedalName().equals("1 countries explored")){
+                    //check statistics
+                    boolean explore = true;
+                    if(explore){
+                        mMedal.setSolved(true);
+                    }
+                }
+                else if(mMedal.getMedalName().equals("5 countries explored")){
+
+                }
+                else if(mMedal.getMedalName().equals("10 countries explored")){
+
+                }
+                else if(mMedal.getMedalName().equals("20 countries explored")){
+
+                }
+                else if(mMedal.getMedalName().equals("30 countries explored")){
+
+                }
+                else if(mMedal.getMedalName().equals("100000 miles traveled")){
+
+                }
+                else if(mMedal.getMedalName().equals("200000 miles traveled")){
+
+                }
+                else if(mMedal.getMedalName().equals("United State")){
+                    boolean explore = true;
+                    if(explore){
+                        mMedal.setSolved(true);
+                    }
+                }
+                else if(mMedal.getMedalName().equals("China")){
+
+                }
+                else{
+
+                }
+                MedalLab medalLab = MedalLab.get(getActivity());
+                medalLab.updateMedal(mMedal);
+
             }
         });
     }
