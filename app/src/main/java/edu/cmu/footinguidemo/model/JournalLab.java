@@ -31,18 +31,6 @@ public class JournalLab {
 
     private JournalLab(Context context) {
         mContext = context.getApplicationContext();
-        JournalConnector db = new JournalConnector(mContext);
-
-
-        String[] mJournalName = { "San Francisco", "Mountain View"};
-
-        for (int i = 0; i < mJournalName.length; i++) {
-            //String photoPath = String.valueOf(mPhotoPath[i]);
-            //String voicePath = String.valueOf(mVoicePath[i]);
-            db.insert(mJournalName[i], "", "", "");
-        }
-        db.close();
-
     }
 
     public List<Journal> getJournals() {

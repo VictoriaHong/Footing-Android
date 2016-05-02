@@ -1,6 +1,7 @@
 package edu.cmu.footinguidemo.ui;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import edu.cmu.footinguidemo.R;
@@ -51,14 +54,20 @@ public class JournalAdapter extends ArrayAdapter<Journal> {
             }
 
             if (imageView != null) {
-                if(p.getJournalName().equals("San Francisco")){
+                if (p.getJournalName().equals("San Francisco")) {
                     imageView.setImageResource(mPhotoPath[0]);
-                }
-                else if(p.getJournalName().equals("Mountain View")){
+                } else if (p.getJournalName().equals("Mountain View")) {
                     imageView.setImageResource(mPhotoPath[1]);
-                }
-                else{
-
+                } else {
+                    // Use photo path saved in journal
+                    String photoPath = p.getPhotoPath();
+                    if (photoPath.isEmpty()) {
+                        // No image
+                        imageView.setImageResource(R.drawable.no_photo);
+                    } else {
+                        // There is image in the journal
+                        imageView.setImageURI(Uri.fromFile(new File(photoPath)));
+                    }
                 }
             }
         }

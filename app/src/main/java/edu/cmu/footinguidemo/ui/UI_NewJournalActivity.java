@@ -59,15 +59,7 @@ public class UI_NewJournalActivity extends AppCompatActivity {
                 // Set the image to "Add Photo" image
                 imageView.setImageResource(R.drawable.add_photo);
             } else {
-
-                Uri imageUri = Uri.fromFile(new File(imagePath));
-                if (imageUri != null) {
-                    imageView.setImageURI(imageUri);
-                } else {
-                    // The photo may be deleted if imageUri == null
-                    // Set the image to "Add Photo" image
-                    imageView.setImageResource(R.drawable.add_photo);
-                }
+                imageView.setImageURI(Uri.fromFile(new File(imagePath)));
             }
         }
     }
