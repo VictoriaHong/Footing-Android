@@ -24,6 +24,9 @@ import edu.cmu.footinguidemo.controller.UserConnector;
 
 public class UI_NewJournalActivity extends AppCompatActivity {
 
+    // Intent extra strings
+    public static final String NEW_JOURNAL = "new_journal";  // True if this Activity is started as new journal (empty content)
+
     private String imagePath = "";
 
     @Override
@@ -36,6 +39,13 @@ public class UI_NewJournalActivity extends AppCompatActivity {
         // Get permission to read MediaStore
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        }
+
+        Intent intent = getIntent();
+        if (intent.getBooleanExtra(NEW_JOURNAL, true) == false) {
+            // Activity is started from a list item, get journal data
+
+
         }
     }
 

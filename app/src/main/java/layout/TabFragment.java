@@ -54,6 +54,7 @@ import edu.cmu.footinguidemo.ui.UI_NewJournalActivity;
  */
 public class TabFragment extends Fragment implements OnMapReadyCallback {
     private static final String ARG_PAGE = "ARG_PAGE";
+
     private static Double latitude = 37.0, longitude = -120.0;
     private static Double latitudeP = 40.4443263, longitudeP = -79.9470875;
     private int mPage;
@@ -187,6 +188,7 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(view.getContext(), UI_NewJournalActivity.class);
+                    intent.putExtra(UI_NewJournalActivity.NEW_JOURNAL, true);
                     startActivity(intent);
                 }
             });
