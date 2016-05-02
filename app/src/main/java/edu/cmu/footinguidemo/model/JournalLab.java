@@ -9,12 +9,13 @@ import java.util.List;
 
 import edu.cmu.footinguidemo.R;
 import edu.cmu.footinguidemo.controller.JournalConnector;
+import edu.cmu.footinguidemo.ui.UI_MainActivity;
 
 /**
  * Created by XinHong on 5/1/16.
  */
 public class JournalLab {
-    //singleton
+    // singleton
     private static JournalLab sJournalLab;
 
     private Context mContext;
@@ -22,19 +23,20 @@ public class JournalLab {
     private SQLiteDatabase mDatabase;
 
     public static JournalLab get(Context context){
-        if(sJournalLab == null){
+        if (sJournalLab == null) {
             sJournalLab = new JournalLab(context);
         }
         return sJournalLab;
     }
-    private JournalLab(Context context){
+
+    private JournalLab(Context context) {
         mContext = context.getApplicationContext();
         JournalConnector db = new JournalConnector(mContext);
 
 
         String[] mJournalName = { "San Francisco", "Mountain View"};
 
-        for(int i = 0; i < mJournalName.length; i++) {
+        for (int i = 0; i < mJournalName.length; i++) {
             //String photoPath = String.valueOf(mPhotoPath[i]);
             //String voicePath = String.valueOf(mVoicePath[i]);
             db.insert(mJournalName[i], "", "", "");
@@ -43,26 +45,25 @@ public class JournalLab {
 
     }
 
-    public List<Journal> getJournals(){
+    public List<Journal> getJournals() {
         List<Journal> journals = new ArrayList<>();
         JournalConnector db = new JournalConnector(mContext);
-        Cursor cursor = db.queryAll();
+        Cursor cursor = db.query(UI_MainActivity.GlobalClass.usr_journalId_csv);
 
-
-        try{
-            cursor.moveToFirst();
-            while(!cursor.isAfterLast()){
-
-                String journalName = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME));
-                String photopath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
-                String voicepath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_VOICE_PATH));
-                Journal journal = new Journal(journalName, photopath, voicepath);
-                journals.add(journal);
-                cursor.moveToNext();
-            }
-        } finally {
-            cursor.close();
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String journalId = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns._ID));
+            String journalName = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME));
+            String journalContent = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_JOURNAL_CONTENT));
+            String photopath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
+            String voicepath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_VOICE_PATH));
+            Journal journal = new Journal(journalId, journalName, journalContent, photopath, voicepath);
+            journals.add(journal);
+            cursor.moveToNext();
         }
+
+        cursor.close();
+
         return journals;
     }
    public Journal getJournal(String journalname){

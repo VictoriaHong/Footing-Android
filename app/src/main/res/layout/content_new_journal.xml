@@ -36,6 +36,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:background="#ddd"
+            android:maxLines="1"
             android:height="40dp" />
 
         <!-- Content -->

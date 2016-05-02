@@ -14,16 +14,26 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.io.File;
+
 import edu.cmu.footinguidemo.R;
 import edu.cmu.footinguidemo.controller.JournalConnector;
 import edu.cmu.footinguidemo.controller.UserConnector;
+import edu.cmu.footinguidemo.model.Journal;
 
 public class UI_NewJournalActivity extends AppCompatActivity {
 
     // Intent extra strings
     public static final String NEW_JOURNAL = "new_journal";  // True if this Activity is started as new journal (empty content)
+    public static final String JOURNAL_ID = "journal_id";
+    public static final String TITLE = "title";
+    public static final String CONTENT = "content";
+    public static final String PHOTO_PATH = "photo_path";
+    public static final String VOICE_PATH = "voice_path";
 
     private String imagePath = "";
+    private String journalId = "";
+    private boolean isNewJournal = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +44,31 @@ public class UI_NewJournalActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent.getBooleanExtra(NEW_JOURNAL, true) == false) {
-            // Activity is started from a list item, get journal data
+            // Activity is started from a list item, which is not a new journal
+            isNewJournal = false;
 
+            // Get journal data
+            ((EditText) findViewById(R.id.journal_title)).setText(intent.getStringExtra(TITLE));
+            ((EditText) findViewById(R.id.journal_content)).setText(intent.getStringExtra(CONTENT));
+            journalId = intent.getStringExtra(JOURNAL_ID);
+            imagePath = intent.getStringExtra(PHOTO_PATH);
+            ImageView imageView = (ImageView) findViewById(R.id.journal_photo);
 
+            if (imagePath.isEmpty()) {
+                // No image
+                // Set the image to "Add Photo" image
+                imageView.setImageResource(R.drawable.add_photo);
+            } else {
+
+                Uri imageUri = Uri.fromFile(new File(imagePath));
+                if (imageUri != null) {
+                    imageView.setImageURI(imageUri);
+                } else {
+                    // The photo may be deleted if imageUri == null
+                    // Set the image to "Add Photo" image
+                    imageView.setImageResource(R.drawable.add_photo);
+                }
+            }
         }
     }
 
@@ -87,8 +119,8 @@ public class UI_NewJournalActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         new AlertDialog.Builder(this)
-                .setTitle("Content Not Saved")
-                .setMessage("Do you really want to return without saving?")
+                .setTitle(isNewJournal ? "Content Not Saved" : "Change Not Saved")
+                .setMessage("Do you really want to return without saving" + (isNewJournal ? "?" : " changes?"))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -104,27 +136,36 @@ public class UI_NewJournalActivity extends AppCompatActivity {
         if (title.isEmpty() || content.isEmpty()) {
             alert("Empty Contents", "Title and Content cannot be empty.");
         } else {
-            // Save to database
-            JournalConnector db = new JournalConnector(this);
-            long journalId = db.insert(title, content, imagePath, "");
-            db.close();
 
-            // Save to global variable
-            if (journalId != -1) {
-                UI_MainActivity.GlobalClass.usr_numJournals++;
-                UI_MainActivity.GlobalClass.usr_journalId_csv =
-                        UI_MainActivity.GlobalClass.usr_journalId_csv.isEmpty() ? "" + journalId : UI_MainActivity.GlobalClass.usr_journalId_csv + "," + journalId;
+            if (isNewJournal) {
+                // Save to database or update database
+                JournalConnector db = new JournalConnector(this);
+                long journalId = db.insert(title, content, imagePath, "");
+                db.close();
 
-                // Update user database
-                UserConnector udb = new UserConnector(this);
-                udb.updateJournal(UI_MainActivity.GlobalClass.usr_email, UI_MainActivity.GlobalClass.usr_journalId_csv);
-                udb.close();
+                // Save to global variable
+                if (journalId != -1) {
+                    UI_MainActivity.GlobalClass.usr_numJournals++;
+                    UI_MainActivity.GlobalClass.usr_journalId_csv =
+                            UI_MainActivity.GlobalClass.usr_journalId_csv.isEmpty() ? "" + journalId : UI_MainActivity.GlobalClass.usr_journalId_csv + "," + journalId;
 
-                finish();
+                    // Update user database
+                    UserConnector udb = new UserConnector(this);
+                    udb.updateJournal(UI_MainActivity.GlobalClass.usr_email, UI_MainActivity.GlobalClass.usr_journalId_csv);
+                    udb.close();
+
+                    finish();
+                } else {
+                    alert("Error", "Unable to save the journal. Please contact customer support if this problem still exists.");
+                }
+
             } else {
-                alert("Error", "Unable to save the journal. Please contact customer support if this problem still exists.");
+                // Update an existing journal
+                JournalConnector db = new JournalConnector(this);
+                db.update(this.journalId, title, content, imagePath, "");
+                db.close();
+                finish();
             }
-
         }
     }
 

@@ -3,11 +3,14 @@ package edu.cmu.footinguidemo.model;
 public class Journal {
 	private String journalId;
 	private String journalName;
+	private String journalContent;
 	private String photoPath;
 	private String voicePath;
-	public Journal(String journalName, String photoPath, String voicePath){
 
+	public Journal(String journalId, String journalName, String journalContent, String photoPath, String voicePath) {
+		this.journalId = journalId;
 		this.journalName = journalName;
+		this.journalContent = journalContent;
 		this.photoPath = photoPath;
 		this.voicePath = voicePath;
 	}
@@ -20,10 +23,15 @@ public class Journal {
 	public String getJournalName() {
 		return journalName;
 	}
+	public String getJournalContent() {
+		return journalContent;
+	}
 	public void setJournalName(String journalName) {
 		this.journalName = journalName;
 	}
-
+	public void setJournalContent(String journalContent) {
+		this.journalContent = journalContent;
+	}
 	public String getPhotoPath() {
 		return photoPath;
 	}

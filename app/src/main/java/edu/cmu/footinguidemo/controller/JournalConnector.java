@@ -54,21 +54,35 @@ public class JournalConnector extends DBConnector {
     }
 
     /**
-     * Query journal data by _ID
-     * @param id - Self generated _ID column by MySQL
+     * Query journal data by a set of _ID of journal_table
+     * Used to get all the journals written by a particular user
+     * @param journalIdCSV - Journal ID CSV values
      * @return Cursor containing one row of journal data
      */
-    public Cursor query(long id) {
+    public Cursor query(String journalIdCSV) {
         mDatabase = mDatabaseOpenHelper.getReadableDatabase();
-        String selection = Columns._ID + " = " + id;
+        String selection = Columns._ID + " IN (" + journalIdCSV + ")";
 
-        // Define a projection that specifies which columns from the database to use
-        String[] projection =
-                {Columns.COLUMN_NAME_JOURNAL_NAME, Columns.COLUMN_NAME_JOURNAL_CONTENT, Columns.COLUMN_NAME_PHOTO_PATH, Columns.COLUMN_NAME_VOICE_PATH};
-        return mDatabase.query(TABLE_NAME, projection, selection, null, null, null, null);
+        // Return rows reversely ordered by _id (which should be reverse chronological order) (all columns)
+        return mDatabase.query(TABLE_NAME, null, selection, null, null, null, Columns._ID + " DESC");
     }
 
-    public Cursor queryAll(){
+    /**
+     * Update journal data by querying _ID
+     * @param journalId
+     * @param title
+     * @param content
+     * @param imagePath
+     * @param voicePath
+     */
+    public void update(String journalId, String title, String content, String imagePath, String voicePath) {
+        Journal journal = new Journal(journalId, title, content, imagePath, voicePath);
+        String selection = Columns._ID + " = " + journalId;
+        ContentValues values = getContentValues(journal);
+        mDatabase.update(TABLE_NAME, values, selection, null);
+    }
+
+    public Cursor queryAll() {
         mDatabase = mDatabaseOpenHelper.getReadableDatabase();
         return mDatabase.query(TABLE_NAME, null, null, null, null, null, null, null);
     }
@@ -83,6 +97,7 @@ public class JournalConnector extends DBConnector {
         ContentValues values = new ContentValues();
 
         values.put(Columns.COLUMN_NAME_JOURNAL_NAME, journal.getJournalName());
+        values.put(Columns.COLUMN_NAME_JOURNAL_CONTENT, journal.getJournalContent());
         values.put(Columns.COLUMN_NAME_PHOTO_PATH, journal.getPhotoPath());
         values.put(Columns.COLUMN_NAME_VOICE_PATH, journal.getVoicePath());
 
