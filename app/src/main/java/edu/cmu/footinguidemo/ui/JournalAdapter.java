@@ -17,6 +17,7 @@ import edu.cmu.footinguidemo.model.Journal;
  * Created by XinHong on 5/1/16.
  */
 public class JournalAdapter extends ArrayAdapter<Journal> {
+
     public JournalAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
