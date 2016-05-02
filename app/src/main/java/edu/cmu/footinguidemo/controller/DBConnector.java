@@ -33,6 +33,7 @@ public abstract class DBConnector {
             "CREATE TABLE IF NOT EXISTS " + JournalConnector.TABLE_NAME + " ("
                     + JournalConnector.Columns._ID + " INTEGER PRIMARY KEY, "
                     + JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME + " TEXT NOT NULL, "
+                    + JournalConnector.Columns.COLUMN_NAME_JOURNAL_CONTENT + " TEXT NOT NULL, "
                     + JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH + " TEXT, "
                     + JournalConnector.Columns.COLUMN_NAME_VOICE_PATH + " TEXT)";
 

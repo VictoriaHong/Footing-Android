@@ -192,6 +192,11 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
                     startActivity(intent);
                 }
             });
+
+            // Get permission to read MediaStore
+            if (ActivityCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
         }
         // Medal tab
         else if (mPage == 3) {

@@ -27,47 +27,58 @@ public class JournalConnector extends DBConnector {
         super(context);
     }
 
-
-
     private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     //create the table
 
-    public void insert(String journalname, String photopath, String voicepath)  {
+    /**
+     * Insert journal into database
+     * @param title - Journal title
+     * @param content - Journal content
+     * @param photoPath - Photo path (in MediaStore photo gallery)
+     * @param voicePath - Voice path
+     * @return _ID of inserted row
+     */
+    public long insert(String title, String content, String photoPath, String voicePath)  {
         System.out.println("journal connector insert called");
         mDatabase = mDatabaseOpenHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
-        values.put(Columns.COLUMN_NAME_JOURNAL_NAME, journalname);
+        values.put(Columns.COLUMN_NAME_JOURNAL_NAME, title);
+        values.put(Columns.COLUMN_NAME_JOURNAL_CONTENT, content);
+        values.put(Columns.COLUMN_NAME_PHOTO_PATH, photoPath);
+        values.put(Columns.COLUMN_NAME_VOICE_PATH, voicePath);
 
-        values.put(Columns.COLUMN_NAME_PHOTO_PATH, photopath);
-        values.put(Columns.COLUMN_NAME_VOICE_PATH, voicepath);
         // Insert
-        mDatabase.insert(TABLE_NAME, null, values);
+        return mDatabase.insert(TABLE_NAME, null, values);
     }
+
     /**
      * Query journal data by _ID
      * @param id - Self generated _ID column by MySQL
      * @return Cursor containing one row of journal data
      */
-    public Cursor query(String id) {
+    public Cursor query(long id) {
         mDatabase = mDatabaseOpenHelper.getReadableDatabase();
-        String selection = Columns._ID + " = '" + id + "'";
+        String selection = Columns._ID + " = " + id;
 
         // Define a projection that specifies which columns from the database to use
         String[] projection =
                 {Columns.COLUMN_NAME_JOURNAL_NAME, Columns.COLUMN_NAME_JOURNAL_CONTENT, Columns.COLUMN_NAME_PHOTO_PATH, Columns.COLUMN_NAME_VOICE_PATH};
         return mDatabase.query(TABLE_NAME, projection, selection, null, null, null, null);
     }
+
     public Cursor queryAll(){
         mDatabase = mDatabaseOpenHelper.getReadableDatabase();
         return mDatabase.query(TABLE_NAME, null, null, null, null, null, null, null);
     }
-    public void update(Journal journal){
+
+    public void update(Journal journal) {
         String journalName = journal.getJournalName();
         ContentValues values = getContentValues(journal);
         mDatabase.update(TABLE_NAME, values, Columns.COLUMN_NAME_JOURNAL_NAME + " = ?", new String[]{journalName});
     }
+
     private static ContentValues getContentValues(Journal journal){
         ContentValues values = new ContentValues();
 

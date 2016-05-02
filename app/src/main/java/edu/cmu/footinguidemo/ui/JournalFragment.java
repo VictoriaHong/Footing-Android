@@ -17,7 +17,8 @@ import edu.cmu.footinguidemo.model.JournalLab;
 /**
  * Created by XinHong on 5/1/16.
  */
-public class JournalFragment extends Fragment{
+public class JournalFragment extends Fragment {
+
     private MediaPlayer mMediaPlayer;
     private int[] mVoicePath = {R.raw.mayday_voice1, R.raw.mayday_voice2};
 
@@ -32,6 +33,7 @@ public class JournalFragment extends Fragment{
             List<Journal> journals = journalLab.getJournals();
             JournalAdapter journalAdapter = new JournalAdapter(this.getContext(), R.layout.list_item_journal, journals);
             final ListView journalList = (ListView) getActivity().findViewById(R.id.journalListView);
+
             journalList.setAdapter(journalAdapter);
             journalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -43,7 +45,7 @@ public class JournalFragment extends Fragment{
                         if (mMediaPlayer != null) {
                             mMediaPlayer.stop();
                         }
-                        if(journal.getJournalName().equals("San Francisco")) {
+                        if (journal.getJournalName().equals("San Francisco")) {
                             mMediaPlayer = MediaPlayer.create(getActivity(), mVoicePath[0]);
                         }
                         else{

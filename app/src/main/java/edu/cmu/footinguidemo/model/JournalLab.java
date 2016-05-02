@@ -37,7 +37,7 @@ public class JournalLab {
         for(int i = 0; i < mJournalName.length; i++) {
             //String photoPath = String.valueOf(mPhotoPath[i]);
             //String voicePath = String.valueOf(mVoicePath[i]);
-            db.insert(mJournalName[i], "", "");
+            db.insert(mJournalName[i], "", "", "");
         }
         db.close();
 
@@ -67,12 +67,13 @@ public class JournalLab {
     }
    public Journal getJournal(String journalname){
 
+       /*
     JournalConnector db = new JournalConnector(mContext);
     Cursor cursor = db.query(journalname);
     Journal journal = null;
-    if(cursor.getCount() == 0){
+    if (cursor.getCount() == 0) {
         System.out.println("no journal got");
-    }else{
+    } else {
         cursor.moveToFirst();
         String journalName = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME));
         String photoPath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
@@ -81,9 +82,11 @@ public class JournalLab {
         cursor.close();
     }
     return journal;
+*/
+       return null;
+    }
 
-}
-    public void updateJournal(Journal journal){
+    public void updateJournal(Journal journal) {
         JournalConnector db = new JournalConnector(mContext);
         db.update(journal);
 

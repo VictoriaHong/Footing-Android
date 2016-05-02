@@ -1,22 +1,18 @@
 package edu.cmu.footinguidemo.ui;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import edu.cmu.footinguidemo.R;
 import edu.cmu.footinguidemo.controller.JournalConnector;
@@ -35,11 +31,6 @@ public class UI_NewJournalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_journal);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // Get permission to read MediaStore
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
 
         Intent intent = getIntent();
         if (intent.getBooleanExtra(NEW_JOURNAL, true) == false) {
@@ -115,9 +106,9 @@ public class UI_NewJournalActivity extends AppCompatActivity {
         } else {
             // Save to database
             JournalConnector db = new JournalConnector(this);
-            //long journalId = db.insert(title, content, imagePath, "");
+            long journalId = db.insert(title, content, imagePath, "");
             db.close();
-            /*
+
             // Save to global variable
             if (journalId != -1) {
                 UI_MainActivity.GlobalClass.usr_numJournals++;
@@ -133,7 +124,7 @@ public class UI_NewJournalActivity extends AppCompatActivity {
             } else {
                 alert("Error", "Unable to save the journal. Please contact customer support if this problem still exists.");
             }
-            */
+
         }
     }
 
