@@ -20,8 +20,7 @@ public class JournalLab {
     private Context mContext;
     private JournalConnector mJournalConnector;
     private SQLiteDatabase mDatabase;
-    private int[] mPhotoPath = {R.drawable.golden_gate_bridge, R.drawable.mountain_view};
-    private int[] mVoicePath = {R.raw.mayday_voice1, R.raw.mayday_voice2};
+
     public static JournalLab get(Context context){
         if(sJournalLab == null){
             sJournalLab = new JournalLab(context);
@@ -32,9 +31,13 @@ public class JournalLab {
         mContext = context.getApplicationContext();
         JournalConnector db = new JournalConnector(mContext);
 
+
         String[] mJournalName = { "San Francisco", "Mountain View"};
-        for(int i = 0; i < mJournalName.length; i++){
-            db.insert(mJournalName[i], mPhotoPath[i], mVoicePath[i]);
+
+        for(int i = 0; i < mJournalName.length; i++) {
+            //String photoPath = String.valueOf(mPhotoPath[i]);
+            //String voicePath = String.valueOf(mVoicePath[i]);
+            db.insert(mJournalName[i], "", "");
         }
         db.close();
 
@@ -51,8 +54,8 @@ public class JournalLab {
             while(!cursor.isAfterLast()){
 
                 String journalName = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME));
-                int photopath = cursor.getInt(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
-                int voicepath = cursor.getInt(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_VOICE_PATH));
+                String photopath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
+                String voicepath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_VOICE_PATH));
                 Journal journal = new Journal(journalName, photopath, voicepath);
                 journals.add(journal);
                 cursor.moveToNext();
@@ -72,8 +75,8 @@ public class JournalLab {
     }else{
         cursor.moveToFirst();
         String journalName = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME));
-        int photoPath = cursor.getInt(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
-        int voicePath = cursor.getInt(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_VOICE_PATH));
+        String photoPath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH));
+        String voicePath = cursor.getString(cursor.getColumnIndex(JournalConnector.Columns.COLUMN_NAME_VOICE_PATH));
         journal = new Journal(journalName, photoPath, voicePath);
         cursor.close();
     }

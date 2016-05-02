@@ -17,7 +17,9 @@ import edu.cmu.footinguidemo.model.Journal;
  * Created by XinHong on 5/1/16.
  */
 public class JournalAdapter extends ArrayAdapter<Journal> {
+
     private List<Journal> mJournals;
+    private int[] mPhotoPath = {R.drawable.golden_gate_bridge, R.drawable.mountain_view};
     public JournalAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
     }
@@ -49,7 +51,15 @@ public class JournalAdapter extends ArrayAdapter<Journal> {
             }
 
             if (imageView != null) {
-                imageView.setImageResource(p.getPhotoPath());
+                if(p.getJournalName().equals("San Francisco")){
+                    imageView.setImageResource(mPhotoPath[0]);
+                }
+                else if(p.getJournalName().equals("Mountain View")){
+                    imageView.setImageResource(mPhotoPath[1]);
+                }
+                else{
+
+                }
             }
         }
 

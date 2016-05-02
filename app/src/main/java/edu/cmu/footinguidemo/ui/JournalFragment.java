@@ -19,6 +19,7 @@ import edu.cmu.footinguidemo.model.JournalLab;
  */
 public class JournalFragment extends Fragment{
     private MediaPlayer mMediaPlayer;
+    private int[] mVoicePath = {R.raw.mayday_voice1, R.raw.mayday_voice2};
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -37,11 +38,19 @@ public class JournalFragment extends Fragment{
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Journal journal = (Journal)journalList.getItemAtPosition(position);
                     Toast.makeText(getContext(), "playing voice", Toast.LENGTH_SHORT).show();
-                    if (mMediaPlayer != null) {
-                        mMediaPlayer.stop();
+
+                    if(journal.getJournalName().equals("San Francisco") || journal.getJournalName().equals("Mountain View")) {
+                        if (mMediaPlayer != null) {
+                            mMediaPlayer.stop();
+                        }
+                        if(journal.getJournalName().equals("San Francisco")) {
+                            mMediaPlayer = MediaPlayer.create(getActivity(), mVoicePath[0]);
+                        }
+                        else{
+                            mMediaPlayer = MediaPlayer.create(getActivity(), mVoicePath[1]);
+                        }
+                        mMediaPlayer.start();
                     }
-                    mMediaPlayer = MediaPlayer.create(getActivity(), journal.getVoicePath());
-                    mMediaPlayer.start();
 
                 }
             });

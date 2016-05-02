@@ -272,21 +272,24 @@ public class TabFragment extends Fragment implements OnMapReadyCallback {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 2);
         }
 
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        try {
+            locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 //            location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
 
-        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
 
-        if (location != null) {
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
+            if (location != null) {
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+            }
+
+            System.out.println("**************" + longitude);
+            System.out.println("**************" + latitude);
+            setUpMap();
+        } catch (SecurityException e) {
+            // Get location again after user granted permission
         }
-
-        System.out.println("**************" + longitude);
-        System.out.println("**************" + latitude);
-        setUpMap();
-
     }
 
     @Override

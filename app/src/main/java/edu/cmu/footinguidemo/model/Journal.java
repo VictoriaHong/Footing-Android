@@ -3,9 +3,9 @@ package edu.cmu.footinguidemo.model;
 public class Journal {
 	private String journalId;
 	private String journalName;
-	private int photoPath;
-	private int voicePath;
-	public Journal(String journalName, int photoPath, int voicePath){
+	private String photoPath;
+	private String voicePath;
+	public Journal(String journalName, String photoPath, String voicePath){
 
 		this.journalName = journalName;
 		this.photoPath = photoPath;
@@ -24,19 +24,19 @@ public class Journal {
 		this.journalName = journalName;
 	}
 
-	public int getPhotoPath() {
+	public String getPhotoPath() {
 		return photoPath;
 	}
 
-	public void setPhotoPath(int photoPath) {
+	public void setPhotoPath(String photoPath) {
 		this.photoPath = photoPath;
 	}
 
-	public int getVoicePath() {
+	public String getVoicePath() {
 		return voicePath;
 	}
 
-	public void setVoicePath(int voicePath) {
+	public void setVoicePath(String voicePath) {
 		this.voicePath = voicePath;
 	}
 }
