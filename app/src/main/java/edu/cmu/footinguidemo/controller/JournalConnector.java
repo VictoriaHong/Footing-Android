@@ -11,11 +11,12 @@ import edu.cmu.footinguidemo.model.Journal;
  * Created by os on 4/12/16.
  */
 public class JournalConnector extends DBConnector {
-    private static final String TABLE_NAME = "journal_table";
-    private static final String[] QUERY_COLUMNS = {"journal_id", "journal_name", "photo_path", "voice_path"};
+    protected static final String TABLE_NAME = "journal_table";
+    private static final String[] QUERY_COLUMNS = {"journal_id", "journal_name", "journal_content", "photo_path", "voice_path"};
     // Inner class that define the table contents
     public static abstract class Columns implements BaseColumns {
         public static final String COLUMN_NAME_JOURNAL_NAME = "journal_name";
+        public static final String COLUMN_NAME_JOURNAL_CONTENT = "journal_content";
         public static final String COLUMN_NAME_PHOTO_PATH = "photo_path";
         public static final String COLUMN_NAME_VOICE_PATH = "voice_path";
     }
@@ -28,33 +29,41 @@ public class JournalConnector extends DBConnector {
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ("
                     + Columns._ID + " INTEGER PRIMARY KEY, "
                     + Columns.COLUMN_NAME_JOURNAL_NAME + " TEXT NOT NULL, "
-                    + Columns.COLUMN_NAME_PHOTO_PATH + " TEXT NOT NULL, "
-                    + Columns.COLUMN_NAME_VOICE_PATH + " TEXT NOT NULL)";
+                    + Columns.COLUMN_NAME_JOURNAL_CONTENT + " TEXT NOT NULL, "
+                    + Columns.COLUMN_NAME_PHOTO_PATH + " TEXT, "
+                    + Columns.COLUMN_NAME_VOICE_PATH + " TEXT)";
 
 
     private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
     //create the table
 
-    public void insert(String journalName, String photoPath, String voicePath)  {
+    public long insert(String title, String content, String photoPath, String voicePath)  {
         mDatabase = mDatabaseOpenHelper.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
 
-        values.put(Columns.COLUMN_NAME_JOURNAL_NAME, journalName);
+        values.put(Columns.COLUMN_NAME_JOURNAL_NAME, title);
+        values.put(Columns.COLUMN_NAME_JOURNAL_CONTENT, content);
         values.put(Columns.COLUMN_NAME_PHOTO_PATH, photoPath);
         values.put(Columns.COLUMN_NAME_VOICE_PATH, voicePath);
 
         // Insert
-        mDatabase.insert(TABLE_NAME, null, values);
+        return mDatabase.insert(TABLE_NAME, null, values);
     }
-    public Cursor query(String name) {
+
+    /**
+     * Query journal data by _ID
+     * @param id - Self generated _ID column by MySQL
+     * @return Cursor containing one row of journal data
+     */
+    public Cursor query(String id) {
         mDatabase = mDatabaseOpenHelper.getReadableDatabase();
-        String selection = Columns.COLUMN_NAME_JOURNAL_NAME + " = '" + name + "'";
+        String selection = Columns._ID + " = '" + id + "'";
 
         // Define a projection that specifies which columns from the database to use
         String[] projection =
-                {Columns.COLUMN_NAME_JOURNAL_NAME, Columns.COLUMN_NAME_PHOTO_PATH, Columns.COLUMN_NAME_VOICE_PATH};
+                {Columns.COLUMN_NAME_JOURNAL_NAME, Columns.COLUMN_NAME_JOURNAL_CONTENT, Columns.COLUMN_NAME_PHOTO_PATH, Columns.COLUMN_NAME_VOICE_PATH};
         return mDatabase.query(TABLE_NAME, projection, selection, null, null, null, null);
     }
     //insert a row to the table

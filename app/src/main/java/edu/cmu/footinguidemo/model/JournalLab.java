@@ -30,8 +30,8 @@ public class JournalLab {
         JournalConnector db = new JournalConnector(mContext);
 
         String[] mJournalName = {"10 countries explored", "20 countries explored", "30 countries explored","10000 miles traveled", "20000 miles traveled"};
-        for(int i = 0; i < 5; i++){
-            db.insert(mJournalName[i], "", "");
+        for (int i = 0; i < 5; i++) {
+            db.insert(mJournalName[i], "", "", "");
         }
         db.close();
 

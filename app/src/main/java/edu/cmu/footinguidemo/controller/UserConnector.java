@@ -104,6 +104,21 @@ public class UserConnector extends DBConnector {
         mDatabase.update(TABLE_NAME, values, selection, null);
     }
 
+    /**
+     * Update the journal ID (CSV) of a user
+     * @param email - Email address of the querying user
+     * @param newJournalId - New journal ID CSV string
+     */
+    public void updateJournal(String email, String newJournalId) {
+        mDatabase = mDatabaseOpenHelper.getReadableDatabase();
+        String selection = Columns.COLUMN_NAME_EMAIL + " = '" + email + "'";
+
+        ContentValues values = new ContentValues();
+        values.put(Columns.COLUMN_NAME_JOURNAL_ID, newJournalId);
+
+        mDatabase.update(TABLE_NAME, values, selection, null);
+    }
+
     @Override
     protected void insert() {}
 

@@ -29,6 +29,13 @@ public abstract class DBConnector {
                     + MedalConnector.Columns._ID + " INTEGER PRIMARY KEY, "
                     + MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME + " TEXT NOT NULL, "
                     + MedalConnector.Columns.COLUMN_MEDAL_SOLVED + " INTEGER)";
+    private static final String SQL_CREATE_JOURNALTABLE =
+            "CREATE TABLE IF NOT EXISTS " + JournalConnector.TABLE_NAME + " ("
+                    + JournalConnector.Columns._ID + " INTEGER PRIMARY KEY, "
+                    + JournalConnector.Columns.COLUMN_NAME_JOURNAL_NAME + " TEXT NOT NULL, "
+                    + JournalConnector.Columns.COLUMN_NAME_JOURNAL_CONTENT + " TEXT NOT NULL, "
+                    + JournalConnector.Columns.COLUMN_NAME_PHOTO_PATH + " TEXT, "
+                    + JournalConnector.Columns.COLUMN_NAME_VOICE_PATH + " TEXT)";
 
 
     protected class DatabaseOpenHelper extends SQLiteOpenHelper {
@@ -85,6 +92,7 @@ public abstract class DBConnector {
     private void createTable(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_USERTABLE);
         db.execSQL(SQL_CREATE_MEDALTABLE);
+        db.execSQL(SQL_CREATE_JOURNALTABLE);
     }
 
     //protected abstract void createTable(SQLiteDatabase db);

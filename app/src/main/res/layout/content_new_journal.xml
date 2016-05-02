@@ -50,7 +50,7 @@
         <EditText
             android:id="@+id/journal_content"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="240dp"
             android:inputType="textMultiLine"
             android:ems="10"
             android:layout_marginTop="10dp"
@@ -60,46 +60,22 @@
             android:gravity="top|start"
             android:height="40dp" />
 
-        <LinearLayout
+        <!-- Photo -->
+        <ImageView
+            android:id="@+id/journal_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:onClick="addPhoto"
+            android:src="@drawable/add_photo" />
 
-            <Button
-                android:id="@+id/button_add_photo"
-                android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:text="@string/add_photo"
-                android:textSize="22sp"
-                android:layout_weight="1"
-                android:textAllCaps="false"
-                android:layout_marginEnd="6dp"
-                android:layout_marginBottom="12dp"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="#fff"
-                android:onClick="addPhoto" />
-
-            <Button
-                android:id="@+id/button_add_recording"
-                android:layout_width="0dp"
-                android:layout_height="55dp"
-                android:text="@string/add_recording"
-                android:textSize="22sp"
-                android:textAllCaps="false"
-                android:layout_weight="1"
-                android:layout_marginStart="6dp"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="#fff"
-                android:onClick="addRecording" />
-
-        </LinearLayout>
-
-
-        <!-- Send email button -->
+        <!-- Save button -->
         <Button
             android:id="@+id/button_send_email"
             android:layout_width="match_parent"
             android:layout_height="55dp"
+            android:layout_marginTop="20dp"
             android:text="@string/save"
             android:textSize="22sp"
             android:textAllCaps="false"
