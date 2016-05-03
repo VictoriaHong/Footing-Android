@@ -27,7 +27,7 @@ public abstract class DBConnector {
     private static final String SQL_CREATE_MEDALTABLE =
             "CREATE TABLE IF NOT EXISTS " + MedalConnector.TABLE_NAME + " ("
                     + MedalConnector.Columns._ID + " INTEGER PRIMARY KEY, "
-                    + MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME + " TEXT NOT NULL, "
+                    + MedalConnector.Columns.COLUMN_NAME_MEDAL_NAME + " TEXT UNIQUE NOT NULL ON CONFLICT IGNORE, "
                     + MedalConnector.Columns.COLUMN_MEDAL_SOLVED + " INTEGER)";
     private static final String SQL_CREATE_JOURNALTABLE =
             "CREATE TABLE IF NOT EXISTS " + JournalConnector.TABLE_NAME + " ("

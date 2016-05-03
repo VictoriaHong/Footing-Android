@@ -30,9 +30,9 @@ public class MedalLab {
         mContext = context.getApplicationContext();
         MedalConnector db = new MedalConnector(mContext);
 
-        String[] mMedalName = { "1 countries explored", "5 countries explored", "10 countries explored", "20 countries explored", "30 countries explored","10000 miles traveled", "20000 miles traveled", "United State", "China", "Japan", "Taiwan"};
+        String[] mMedalName = { "1 country explored", "5 countries explored", "10 countries explored", "20 countries explored", "30 countries explored","10000 miles travelled", "20000 miles travelled", "United States", "China", "Japan", "Taiwan"};
         for (int i = 0; i < mMedalName.length; i++) {
-            if(mMedalName[i].equals("1 countries explored") || mMedalName[i].equals("United State")) {
+            if(mMedalName[i].equals("1 country explored") || mMedalName[i].equals("United States")) {
                 db.insert(mMedalName[i], true);
             }
             else{

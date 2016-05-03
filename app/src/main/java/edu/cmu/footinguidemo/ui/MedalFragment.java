@@ -34,8 +34,10 @@ public class MedalFragment extends Fragment {
         medalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),"Checking", Toast.LENGTH_SHORT ).show();
+
                 Medal mMedal = (Medal)medalList.getItemAtPosition(position);
+
+                Toast.makeText(getActivity(), mMedal.isSolved() ? "Achievement completed" : "Achievement not completed", Toast.LENGTH_SHORT ).show();
                 if(mMedal.getMedalName().equals("1 countries explored")){
                     //check statistics
                     boolean explore = true;
