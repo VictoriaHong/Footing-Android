@@ -131,11 +131,13 @@ public class UI_SignUpActivity extends AppCompatActivity {
             db.insert(username, email, password, 0, "", "", "");
             db.close();
 
+
             // Write user data to remote server
             FootingRESTClient client = new FootingRESTClient("http://10.0.2.2:8080/base/user/add");
             client.sendUserData(new User(email, username, password, "", "", "", ""));
             System.out.println(client.getResponse());
             client.disconnect();
+
 
             // Alert the user and go back to login
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();

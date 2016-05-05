@@ -1,5 +1,7 @@
 package edu.cmu.footinguidemo.client;
 
+import android.os.NetworkOnMainThreadException;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -33,6 +35,8 @@ public class FootingRESTClient {
             oout.writeObject(outputStr);
         } catch (IOException e) {
             System.err.println(e.getMessage());
+        } catch (NetworkOnMainThreadException e) {
+            System.err.println("Server is not available: " + e.getMessage());
         }
     }
 
