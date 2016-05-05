@@ -3,7 +3,6 @@ package edu.cmu.footinguidemo.ui;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -133,7 +132,7 @@ public class UI_SignUpActivity extends AppCompatActivity {
 
 
             // Write user data to remote server
-            FootingRESTClient client = new FootingRESTClient("http://10.0.2.2:8080/base/user/add");
+            FootingRESTClient client = new FootingRESTClient("http://192.168.1.13:8080/add");
             client.sendUserData(new User(email, username, password, "", "", "", ""));
             System.out.println(client.getResponse());
             client.disconnect();

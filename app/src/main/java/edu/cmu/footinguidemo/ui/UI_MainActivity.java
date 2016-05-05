@@ -2,6 +2,7 @@ package edu.cmu.footinguidemo.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import edu.cmu.footinguidemo.R;
 import edu.cmu.footinguidemo.client.FootingRESTClient;
@@ -126,12 +140,23 @@ public class UI_MainActivity extends AppCompatActivity
                     menu.findItem(R.id.item_num_journals).setTitle(getString(R.string.num_journals) + GlobalClass.usr_numJournals);
                     menu.findItem(R.id.item_percentage_explored).setTitle(getString(R.string.percentage_explored) + String.format("%.1f%%", 100.0 * GlobalClass.usr_countries_csv.split(",").length / GlobalClass.num_countries));
 
-
                     // Write user data to remote server
-                    FootingRESTClient client = new FootingRESTClient("http://10.0.2.2:8080/base/user/add");
-                    client.sendUserData(new User(GlobalClass.usr_email, GlobalClass.usr_username, "password", GlobalClass.usr_countries_csv, GlobalClass.usr_numMiles + "", GlobalClass.usr_journalId_csv, GlobalClass.usr_medalId_csv));
-                    System.out.println(client.getResponse());
-                    client.disconnect();
+                    JSONObject post_dict = new JSONObject();
+
+                    try {
+                        post_dict.put("email" , GlobalClass.usr_email);
+                        post_dict.put("username", GlobalClass.usr_username);
+                        post_dict.put("country", GlobalClass.usr_countries_csv);
+                        post_dict.put("miles", GlobalClass.usr_numMiles);
+                        post_dict.put("journal", GlobalClass.usr_journalId_csv);
+                        post_dict.put("medal", GlobalClass.usr_numMedals);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (post_dict.length() > 0) {
+                        WebServiceTask webServiceTask = new WebServiceTask();
+                        webServiceTask.execute(String.valueOf(post_dict));
+                    }
 
                 }
             }
@@ -245,6 +270,72 @@ public class UI_MainActivity extends AppCompatActivity
     public void enterRecordingList(View view) {
         Intent intent = new Intent(view.getContext(), UI_RecordingActivity.class);
         startActivity(intent);
+    }
+
+    private class WebServiceTask extends AsyncTask<String, String, String>{
+
+        @Override
+        protected String doInBackground(String... params) {
+//            CookieHandler.setDefault(new CookieManager(null, CookiePolicy.ACCEPT_ALL));
+//            FootingRESTClient client = new FootingRESTClient("http://192.168.1.13:8080/add");
+//            client.sendUserData(new User(GlobalClass.usr_email, GlobalClass.usr_username, "password", GlobalClass.usr_countries_csv, GlobalClass.usr_numMiles + "", GlobalClass.usr_journalId_csv, GlobalClass.usr_medalId_csv));
+//            System.out.println("************* database response: " + client.getResponse());
+//            client.disconnect();
+//            return "";
+
+            String JsonResponse = null;
+            String JsonDATA = params[0];
+
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+            try {
+                URL url = new URL("http://192.168.1.13:8080/add");
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoOutput(true);
+                // is output buffer writter
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Accept", "application/json");
+//set headers and method
+                Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
+                writer.write(JsonDATA);
+// json data
+                writer.close();
+                InputStream inputStream = urlConnection.getInputStream();
+//input stream
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    // Nothing to do.
+                    return null;
+                }
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+
+                String inputLine;
+                while ((inputLine = reader.readLine()) != null)
+                    buffer.append(inputLine + "\n");
+                if (buffer.length() == 0) {
+                    // Stream was empty. No point in parsing.
+                    return null;
+                }
+                JsonResponse = buffer.toString();
+                return JsonResponse;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                    }
+                }
+            }
+            return null;
+        }
     }
 
 }
