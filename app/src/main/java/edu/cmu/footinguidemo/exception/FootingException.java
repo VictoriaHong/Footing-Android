@@ -8,6 +8,7 @@ public class FootingException extends Exception {
     private String message;
 
     public FootingException(String message) {
+        super();
         this.message = message;
     }
 

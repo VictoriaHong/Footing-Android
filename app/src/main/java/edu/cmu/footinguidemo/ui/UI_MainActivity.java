@@ -21,7 +21,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.client.FootingRESTClient;
 import edu.cmu.footinguidemo.controller.UserConnector;
+import edu.cmu.footinguidemo.model.User;
 
 public class UI_MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -123,6 +125,12 @@ public class UI_MainActivity extends AppCompatActivity
                     menu.findItem(R.id.item_num_countries).setTitle(getString(R.string.num_countries) + GlobalClass.usr_numCountries);
                     menu.findItem(R.id.item_num_journals).setTitle(getString(R.string.num_journals) + GlobalClass.usr_numJournals);
                     menu.findItem(R.id.item_percentage_explored).setTitle(getString(R.string.percentage_explored) + String.format("%.1f%%", 100.0 * GlobalClass.usr_countries_csv.split(",").length / GlobalClass.num_countries));
+
+                    // Write user data to remote server
+                    FootingRESTClient client = new FootingRESTClient("http://10.0.2.2:8080/base/user/add");
+                    client.sendUserData(new User(GlobalClass.usr_email, GlobalClass.usr_username, "password", GlobalClass.usr_countries_csv, GlobalClass.usr_numMiles + "", GlobalClass.usr_journalId_csv, GlobalClass.usr_medalId_csv));
+                    System.out.println(client.getResponse());
+                    client.disconnect();
                 }
             }
         });

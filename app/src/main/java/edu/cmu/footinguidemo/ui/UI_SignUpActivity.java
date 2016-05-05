@@ -3,6 +3,7 @@ package edu.cmu.footinguidemo.ui;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,8 +13,10 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import edu.cmu.footinguidemo.R;
+import edu.cmu.footinguidemo.client.FootingRESTClient;
 import edu.cmu.footinguidemo.controller.UserConnector;
 import edu.cmu.footinguidemo.controller.Validator;
+import edu.cmu.footinguidemo.model.User;
 
 public class UI_SignUpActivity extends AppCompatActivity {
 
@@ -127,6 +130,12 @@ public class UI_SignUpActivity extends AppCompatActivity {
             UserConnector db = new UserConnector(this);
             db.insert(username, email, password, 0, "", "", "");
             db.close();
+
+            // Write user data to remote server
+            FootingRESTClient client = new FootingRESTClient("http://10.0.2.2:8080/base/user/add");
+            client.sendUserData(new User(email, username, password, "", "", "", ""));
+            System.out.println(client.getResponse());
+            client.disconnect();
 
             // Alert the user and go back to login
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
