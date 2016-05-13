@@ -3,6 +3,8 @@
 
 ![](http://i.imgur.com/Ixrj7ex.png?1)
 
+:+1: [Here is a live demo!](https://youtu.be/3Z8cXjntb8M) :+1:
+
 ### Overview
 
 This is a course project for Java smartphone development (18-654) at Carnegie Mellon University.
@@ -35,8 +37,6 @@ This is a course project for Java smartphone development (18-654) at Carnegie Me
 The main function of Footing app is to report the traveler’s footprint with a photo and rewards them with medals. We also report the number of countries the users have been to, the total distance they fly and percentage of the world they have discovered and reward the users with medals.
 
 [Have a look at our Poster](https://drive.google.com/file/d/0B-xpUAR5wa1RS3FoQmFtMzhuNHc/view?usp=sharing)
-
-[Here is a live demo!](https://youtu.be/3Z8cXjntb8M)
 
 ### Basic Functionalities
 
@@ -86,4 +86,4 @@ The main function of Footing app is to report the traveler’s footprint with a 
 
 
 ---
-Powered by team Puff
+:sparkling_heart: Powered by team Puff
