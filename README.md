@@ -1,6 +1,7 @@
 # Android Application
 ## Footing -- Your Travel Assistant
 
+![](http://i.imgur.com/Ixrj7ex.png?1)
 
 ### Overview
 
